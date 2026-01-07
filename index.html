@@ -52,7 +52,7 @@ button:hover{background:#ff6f86;transform:translateY(-2px);}
   </nav>
 </header>
 
-<!-- Hero -->
+<!-- Hero Section -->
 <section class="hero">
   <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Beauty hero">
   <div class="hero-text">
@@ -65,8 +65,25 @@ button:hover{background:#ff6f86;transform:translateY(-2px);}
 <!-- Services Section -->
 <section>
 <h2>Our Services</h2>
-<div class="grid" id="services-grid">
-  <!-- Services dynamically added by JS -->
+<div class="grid">
+  <div class="card" data-name="Soft / Natural" data-price="3000">
+    <img src="https://images.unsplash.com/photo-1599058917211-185b9e1a1ec5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600" alt="Soft Makeup">
+    <h3>Soft / Natural</h3>
+    <p class="price">GYD 3,000</p>
+    <a href="book.html"><button data-service="true">Book Now</button></a>
+  </div>
+  <div class="card" data-name="Graduation" data-price="6000">
+    <img src="https://images.unsplash.com/photo-1583084817211-3a8721c14f1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600" alt="Graduation Makeup">
+    <h3>Graduation</h3>
+    <p class="price">GYD 6,000</p>
+    <a href="book.html"><button data-service="true">Book Now</button></a>
+  </div>
+  <div class="card" data-name="Bridal" data-price="12000">
+    <img src="https://images.unsplash.com/photo-1590502593745-8a2e6215c2ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600" alt="Bridal Makeup">
+    <h3>Bridal</h3>
+    <p class="price">From GYD 12,000+</p>
+    <a href="book.html"><button data-service="true">Book Now</button></a>
+  </div>
 </div>
 </section>
 
@@ -79,14 +96,30 @@ button:hover{background:#ff6f86;transform:translateY(-2px);}
 <section>
 <h2>Featured Products</h2>
 <div class="carousel-container">
-  <div class="carousel-track" id="carousel-track"></div>
+  <div class="carousel-track" id="carousel-track">
+    <div class="carousel-card" data-stock="8" data-name="Foundation" data-price="4200">
+      <img src="https://images.unsplash.com/photo-1612197867757-380af0e812a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600" alt="Foundation">
+      <div class="stock-badge">8</div>
+      <h3>Foundation</h3>
+      <p class="price">GYD 4,200</p>
+      <button>Add to Cart</button>
+    </div>
+    <div class="carousel-card" data-stock="2" data-name="Lipstick" data-price="5250">
+      <img src="https://images.unsplash.com/photo-1611741301707-317db1b3e24e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600" alt="Lipstick">
+      <div class="stock-badge">2</div>
+      <h3>Lipstick</h3>
+      <p class="price">GYD 5,250</p>
+      <button>Add to Cart</button>
+    </div>
+    <!-- Add remaining 6 products exactly as in your original design -->
+  </div>
 </div>
 </section>
 
 <!-- Floating Cart -->
 <div id="floating-cart" onclick="toggleCartPreview()">Cart <span id="cart-count">0</span></div>
 
-<!-- Modal -->
+<!-- Stock / Cart Modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal-box" id="modal-box">
     <h3 id="modal-message">Message</h3>
@@ -94,7 +127,7 @@ button:hover{background:#ff6f86;transform:translateY(-2px);}
   </div>
 </div>
 
-<!-- Cart Preview -->
+<!-- Cart Preview Modal -->
 <div class="modal-overlay" id="cart-preview">
   <div class="modal-box" style="max-width:500px;">
     <h3>Your Cart</h3>
@@ -106,67 +139,27 @@ button:hover{background:#ff6f86;transform:translateY(-2px);}
 </div>
 
 <script>
-// ===== DATA =====
-const services = [
-  {name:"Soft / Natural Makeup",price:3000,img:"https://images.unsplash.com/photo-1599058917211-185b9e1a1ec5",fresha:"book.html"},
-  {name:"Graduation Makeup",price:6000,img:"https://images.unsplash.com/photo-1583084817211-3a8721c14f1a",fresha:"book.html"},
-  {name:"Bridal Makeup",price:12000,img:"https://images.unsplash.com/photo-1590502593745-8a2e6215c2ab",fresha:"book.html"}
-];
-const products = [
-  {name:"Foundation",price:4200,stock:8,img:"https://images.unsplash.com/photo-1612197867757-380af0e812a8"},
-  {name:"Lipstick",price:5250,stock:2,img:"https://images.unsplash.com/photo-1611741301707-317db1b3e24e"}
-];
-
+// Cart logic
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 updateCartCount();
 
-// ===== RENDER SERVICES =====
-const servicesGrid = document.getElementById('services-grid');
-services.forEach((s)=>{
-  const card = document.createElement('div');
-  card.className='card';
-  card.setAttribute('data-name',s.name);
-  card.setAttribute('data-price',s.price);
-  card.innerHTML=`<img src="${s.img}" alt="${s.name}">
-                  <h3>${s.name}</h3>
-                  <p class="price">GYD ${s.price.toLocaleString()}</p>
-                  <button data-fresha="${s.fresha}">Book Now</button>`;
-  servicesGrid.appendChild(card);
-});
-
-// ===== RENDER PRODUCTS =====
-const carouselTrack = document.getElementById('carousel-track');
-products.forEach((p)=>{
-  const card = document.createElement('div');
-  card.className='carousel-card';
-  card.setAttribute('data-name',p.name);
-  card.setAttribute('data-price',p.price);
-  card.setAttribute('data-stock',p.stock);
-  card.innerHTML=`<img src="${p.img}" alt="${p.name}">
-                  <div class="stock-badge">${p.stock}</div>
-                  <h3>${p.name}</h3>
-                  <p class="price">GYD ${p.price.toLocaleString()}</p>
-                  <button>Add to Cart</button>`;
-  carouselTrack.appendChild(card);
-});
-
-// ===== BUTTONS LOGIC =====
+// Button click
 document.querySelectorAll('button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
+  btn.addEventListener('click', ()=>{
     const card = btn.closest('.card') || btn.closest('.carousel-card');
     if(!card) return;
 
-    if(btn.dataset.fresha){ // Service booking
-      window.open(btn.dataset.fresha,'_blank');
+    // Services
+    if(btn.dataset.service){
+      window.open('book.html','_blank');
       return;
     }
 
-    // Product Add to Cart
+    // Products
     let stock = parseInt(card.dataset.stock);
     const name = card.dataset.name;
     const price = parseInt(card.dataset.price);
     if(stock===0){ showModal(name+" is out of stock",'error'); return; }
-
     cart.push({name,price});
     localStorage.setItem('cart',JSON.stringify(cart));
     updateCartCount();
@@ -177,7 +170,7 @@ document.querySelectorAll('button').forEach(btn=>{
   });
 });
 
-// ===== MODALS =====
+// Modals
 function showModal(msg,type='success'){
   const modal=document.getElementById('modal');
   const box=document.getElementById('modal-box');
@@ -187,15 +180,15 @@ function showModal(msg,type='success'){
 }
 function closeModal(){ document.getElementById('modal').classList.remove('show'); }
 
-// ===== CART PREVIEW =====
+// Cart Preview
 function toggleCartPreview(){ document.getElementById('cart-preview').classList.toggle('show'); renderCartItems(); }
 function closeCartPreview(){ document.getElementById('cart-preview').classList.remove('show'); }
 function renderCartItems(){
   const container=document.getElementById('cart-items');
   container.innerHTML='';
   let total=0;
-  if(cart.length===0){ container.innerHTML='<p>Your cart is empty.</p>'; }
-  else{ cart.forEach((item,index)=>{
+  if(cart.length===0){ container.innerHTML='<p>Your cart is empty.</p>'; return; }
+  cart.forEach((item,index)=>{
     total+=item.price;
     const div=document.createElement('div');
     div.style.display='flex';
@@ -203,33 +196,33 @@ function renderCartItems(){
     div.style.alignItems='center';
     div.style.marginBottom='8px';
     div.innerHTML=`<span>${item.name} - GYD ${item.price}</span><button style="background:#f44336;color:white;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">Remove</button>`;
-    div.querySelector('button').addEventListener('click',()=>{
+    div.querySelector('button').addEventListener('click', ()=>{
       cart.splice(index,1);
       localStorage.setItem('cart',JSON.stringify(cart));
       updateCartCount();
       renderCartItems();
     });
     container.appendChild(div);
-  });}
+  });
   document.getElementById('cart-total').innerText=total;
 }
 
-// ===== FLOATING CART =====
 function updateCartCount(){ document.getElementById('cart-count').innerText=cart.length; }
 function checkout(){ window.location.href='checkout.html'; }
 
-// ===== CAROUSEL AUTO-SLIDE =====
+// Carousel auto-slide
+let track=document.getElementById('carousel-track');
 let offset=0;
 function slideCarousel(){
   const cardWidth=240;
   offset-=2;
-  if(Math.abs(offset)>(carouselTrack.scrollWidth - carouselTrack.parentElement.offsetWidth)) offset=0;
-  carouselTrack.style.transform='translateX('+offset+'px)';
+  if(Math.abs(offset)>(track.scrollWidth - track.parentElement.offsetWidth)) offset=0;
+  track.style.transform='translateX('+offset+'px)';
 }
 setInterval(slideCarousel,50);
 
 </script>
 
-<footer style="text-align:center;padding:20px;">&copy; 2025 Tea | Guyana</footer>
+<footer>&copy; 2025 Tea | Guyana</footer>
 </body>
 </html>
