@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tea | Checkout</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Lato',sans-serif;background:#fff;color:#333;line-height:1.6;padding:20px;}
+header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+header strong{font-family:'Playfair Display', serif;font-size:1.8rem;}
+header nav a{color:white;margin:0 12px;text-decoration:none;font-weight:600;font-size:0.95rem;}
+header nav a:hover{text-decoration:underline;}
+h2{color:#FF8A9D;text-align:center;font-family:'Playfair Display', serif;margin-bottom:40px;font-size:2rem;}
+table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+table th, table td{padding:12px;border-bottom:1px solid #ddd;text-align:left;}
+input, select, textarea{width:100%;padding:10px;margin:6px 0 12px;border-radius:8px;border:1px solid #ccc;font-family:'Lato',sans-serif;font-size:0.95rem;}
+textarea{resize:vertical;}
+button{background:#FF8A9D;color:white;border:none;padding:12px 28px;border-radius:30px;font-weight:bold;font-size:0.95rem;cursor:pointer;box-shadow:0 6px 18px rgba(255,138,157,0.35);transition:all 0.3s ease;}
+button:hover{background:#ff6f86;transform:translateY(-2px);}
+footer{text-align:center;padding:25px 0;background:#fff0f3;color:#333;font-size:0.9rem;margin-top:50px;}
+#map{width:100%;height:300px;margin-bottom:20px;border-radius:12px;}
+.payment-section{margin-top:20px;}
+.quantity-controls{display:flex;align-items:center;gap:6px;}
+.quantity-controls button{padding:4px 10px;font-size:0.9rem;border-radius:6px;}
+.remove-btn{background:#f44336;}
+.remove-btn:hover{background:#d32f2f;}
+</style>
+</head>
+<body>
+
+<header>
+  <strong>Tea</strong>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="book.html">Book</a>
+    <a href="shop.html">Shop</a>
+  </nav>
+</header>
+
+<section>
+<h2>Checkout</h2>
+
+<table id="cart-table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Qty</th>
+      <th>Price (GYD)</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<p><strong>Subtotal:</strong> GYD <span id="subtotal">0</span></p>
+<p><strong>Tax (14%):</strong> GYD <span id="tax">0</span></p>
+<p><strong>Delivery Fee:</strong> GYD <span id="delivery-fee">0</span></p>
+<p><strong>Total:</strong> GYD <span id="total">0</span></p>
+
+<h3>Delivery Address</h3>
+<div id="map"></div>
+<textarea id="delivery-address" placeholder="Enter your address here" rows="4"></textarea>
+
+<div class="payment-section">
+<h3>Select Payment Method</h3>
+<select id="payment-method">
+  <option value="cash">Cash</option>
+  <option value="mmg">MMG</option>
+</select>
+</div>
+
+<button onclick="placeOrder()">Place Order</button>
+</section>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let subtotal = 0;
+let tax = 0;
+let deliveryFee = 0;
+const georgetownBounds = {latMin:6.785,latMax:6.855,lngMin:-58.195,lngMax:-58.125};
+const tableBody = document.querySelector('#cart-table tbody');
+const subtotalEl = document.getElementById('subtotal');
+const taxEl = document.getElementById('tax');
+const deliveryEl = document.getElementById('delivery-fee');
+const totalEl = document.getElementById('total');
+
+// Populate cart table
+function renderCart(){
+  tableBody.innerHTML='';
+  subtotal=0;
+  cart.forEach((item,index)=>{
+    const row=document.createElement('tr');
+    row.innerHTML=`
+      <td>${item.name}</td>
+      <td>
+        <div class="quantity-controls">
+          <button onclick="changeQty(${index},-1)">-</button>
+          <span id="qty-${index}">${item.qty || 1}</span>
+          <button onclick="changeQty(${index},1)">+</button>
+        </div>
+      </td>
+      <td id="price-${index}">${(item.price*(item.qty||1)).toLocaleString()}</td>
+      <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+    `;
+    tableBody.appendChild(row);
+    subtotal += item.price*(item.qty||1);
+  });
+  subtotalEl.innerText = subtotal.toLocaleString();
+  tax = subtotal*0.14;
+  taxEl.innerText = tax.toLocaleString();
+  calculateTotal();
+}
+renderCart();
+
+function changeQty(index,delta){
+  let item = cart[index];
+  if(!item.qty) item.qty=1;
+  let newQty = item.qty + delta;
+  if(newQty<1) newQty=1;
+  // Check against stock
+  let products = JSON.parse(localStorage.getItem('products')) || [];
+  let prod = products[item.index];
+  if(newQty>prod.stock+item.qty){ newQty = prod.stock+item.qty; }
+  item.qty=newQty;
+  document.getElementById(`qty-${index}`).innerText=item.qty;
+  document.getElementById(`price-${index}`).innerText=(item.price*item.qty).toLocaleString();
+  renderCart();
+  localStorage.setItem('cart',JSON.stringify(cart));
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  localStorage.setItem('cart',JSON.stringify(cart));
+  renderCart();
+}
+
+function calculateTotal(){
+  totalEl.innerText=(subtotal+tax+deliveryFee).toLocaleString();
+}
+
+// GOOGLE MAPS
+let map,marker;
+function initMap(){
+  map=new google.maps.Map(document.getElementById('map'),{
+    center:{lat:6.804,lng:-58.155},
+    zoom:12
+  });
+  marker=new google.maps.Marker({
+    position:{lat:6.804,lng:-58.155},
+    map:map,
+    draggable:true
+  });
+  google.maps.event.addListener(marker,'dragend',updateDeliveryFee);
+}
+function updateDeliveryFee(){
+  const pos=marker.getPosition();
+  if(pos.lat()>=georgetownBounds.latMin && pos.lat()<=georgetownBounds.latMax &&
+     pos.lng()>=georgetownBounds.lngMin && pos.lng()<=georgetownBounds.lngMax){
+    deliveryFee=500;
+  }else{
+    deliveryFee=1000;
+  }
+  deliveryEl.innerText=deliveryFee.toLocaleString();
+  calculateTotal();
+}
+
+// Save delivery info and payment
+function placeOrder(){
+  const address=document.getElementById('delivery-address').value;
+  const payment=document.getElementById('payment-method').value;
+  if(!address){alert('Please enter delivery address'); return;}
+  const order={cart,subtotal,tax,deliveryFee,total:subtotal+tax+deliveryFee,address,payment};
+  localStorage.setItem('order',JSON.stringify(order));
+  localStorage.setItem('lastAddress',address); // save for admin area
+  alert('Order placed! Proceeding to payment...');
+  if(payment==='mmg'){
+    window.location.href='mmg_payment.html';
+  }else{
+    alert('You selected Cash. Please prepare GYD on delivery.');
+  }
+}
+</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_TEMP_KEY&callback=initMap"></script>
+<footer>&copy; 2025 Tea | Guyana</footer>
+</body>
+</html>
