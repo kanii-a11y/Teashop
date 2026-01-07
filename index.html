@@ -5,23 +5,42 @@
 <title>Tea | Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
 <style>
-body{font-family:'Lato',sans-serif;margin:0;background:#fff;color:#333;}
-header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;}
-header strong{font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;}
-header nav a{color:#fff;margin:0 12px;text-decoration:none;font-weight:600;}
-.hero{text-align:center;padding:60px 20px;}
-.hero h1{font-family:'Playfair Display',serif;color:#FF8A9D;}
-.button{background:#FF8A9D;color:#fff;border:none;padding:12px 26px;border-radius:30px;font-weight:bold;cursor:pointer;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;padding:40px;}
-.card{background:#fff;border-radius:16px;padding:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
-.price{font-weight:bold;color:#FF8A9D;}
-#floating-cart{position:fixed;bottom:20px;right:20px;background:#FF8A9D;color:#fff;padding:14px 20px;border-radius:50px;}
-#cart-count{background:#fff;color:#FF8A9D;border-radius:50%;padding:2px 8px;margin-left:6px;}
+body{font-family:'Lato',sans-serif;margin:0;padding:0;background:#fff;color:#333;}
+header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+header strong{font-family:'Playfair Display', serif;font-size:1.8rem;}
+header nav a{color:white;margin:0 12px;text-decoration:none;font-weight:600;font-size:0.95rem;}
+header nav a:hover{text-decoration:underline;}
+h2{color:#FF8A9D;text-align:center;font-family:'Playfair Display', serif;margin-bottom:40px;font-size:2rem;}
+.hero{position:relative;text-align:center;color:white;}
+.hero img{width:100%;max-height:600px;object-fit:cover;}
+.hero-text{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);text-shadow:0 4px 12px rgba(0,0,0,0.5);}
+.hero-text h1{font-family:'Playfair Display', serif;font-size:3rem;margin-bottom:0.5rem;}
+.hero-text p{font-size:1.2rem;margin-bottom:20px;}
+button{background:#FF8A9D;color:white;border:none;padding:12px 28px;border-radius:30px;font-weight:bold;font-size:0.95rem;cursor:pointer;box-shadow:0 6px 18px rgba(255,138,157,0.35);transition:all 0.3s ease;}
+button:hover{background:#ff6f86;transform:translateY(-2px);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-bottom:60px;}
+.card{background:white;border-radius:16px;padding:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.08);position:relative;transition:transform 0.3s ease,box-shadow 0.3s ease;}
+.card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,0.15);}
+.card img{width:100%;border-radius:12px;margin-bottom:15px;}
+.price{font-weight:bold;font-size:1.1rem;margin:10px 0;}
+.stock-badge{position:absolute;top:10px;right:10px;background:#FF6F86;color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:0.9rem;box-shadow:0 4px 8px rgba(0,0,0,0.2);}
+#floating-cart{position:fixed;bottom:20px;right:20px;background:#FF8A9D;color:white;padding:14px 20px;border-radius:50px;font-weight:bold;box-shadow:0 8px 20px rgba(0,0,0,0.3);cursor:pointer;z-index:1000;}
+#cart-count{background:#fff;color:#FF8A9D;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-left:8px;font-size:0.8rem;font-weight:bold;}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:2000;visibility:hidden;opacity:0;transition:opacity 0.3s;}
+.modal-overlay.show{visibility:visible;opacity:1;}
+.modal-box{background:white;padding:25px 35px;border-radius:12px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.2);}
+.modal-box.success{border-top:5px solid #4CAF50;}
+.modal-box.error{border-top:5px solid #f44336;}
+.modal-box h3{margin-bottom:15px;}
+.modal-box button{background:#FF8A9D;color:white;padding:10px 20px;margin-top:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
+.modal-box button:hover{background:#ff6f86;}
+.carousel-container{position:relative;width:90%;margin:0 auto;overflow:hidden;margin-bottom:60px;}
+.carousel-track{display:flex;transition:transform 0.5s ease-in-out;}
+.carousel-card{flex:0 0 220px;margin-right:20px;background:white;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.08);text-align:center;padding:15px;}
+.carousel-card img{width:100%;border-radius:12px;margin-bottom:10px;}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -33,73 +52,184 @@ header nav a{color:#fff;margin:0 12px;text-decoration:none;font-weight:600;}
   </nav>
 </header>
 
+<!-- Hero -->
 <section class="hero">
-  <h1>Selfcare and Beauty in Harmony</h1>
-  <p>Your journey to radiant confidence starts here</p>
-  <button class="button" onclick="location.href='shop.html'">Shop Now</button>
+  <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Beauty hero">
+  <div class="hero-text">
+    <h1>Beauty for Every Occasion</h1>
+    <p>Luxury makeup services & inclusive beauty products</p>
+    <a href="book.html"><button>Book an Appointment</button></a>
+  </div>
 </section>
 
-<div class="grid" id="products-grid"></div>
+<!-- Services Section -->
+<section>
+<h2>Our Services</h2>
+<div class="grid" id="services-grid">
+  <!-- Services dynamically added by JS -->
+</div>
+</section>
 
-<div id="floating-cart">
-  Cart <span id="cart-count">0</span>
+<!-- Products Banner -->
+<section style="text-align:center;margin-bottom:20px;">
+  <img src="https://images.unsplash.com/photo-1612197867757-380af0e812a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Featured Products Banner" style="width:90%;border-radius:16px;">
+</section>
+
+<!-- Product Carousel -->
+<section>
+<h2>Featured Products</h2>
+<div class="carousel-container">
+  <div class="carousel-track" id="carousel-track"></div>
+</div>
+</section>
+
+<!-- Floating Cart -->
+<div id="floating-cart" onclick="toggleCartPreview()">Cart <span id="cart-count">0</span></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box" id="modal-box">
+    <h3 id="modal-message">Message</h3>
+    <button onclick="closeModal()">OK</button>
+  </div>
+</div>
+
+<!-- Cart Preview -->
+<div class="modal-overlay" id="cart-preview">
+  <div class="modal-box" style="max-width:500px;">
+    <h3>Your Cart</h3>
+    <div id="cart-items" style="max-height:300px;overflow-y:auto;margin-bottom:15px;"></div>
+    <p style="font-weight:bold;">Total: GYD <span id="cart-total">0</span></p>
+    <button onclick="checkout()">Go to Checkout</button>
+    <button style="background:#f44336;margin-left:10px;" onclick="closeCartPreview()">Close</button>
+  </div>
 </div>
 
 <script>
-/* ===== PRODUCTS ===== */
-let products = JSON.parse(localStorage.getItem('products')) || [
-  {
-    id:"SERV_SOFT",
-    name:"Soft / Natural Makeup",
-    desc:"Soft glam or natural everyday makeup look",
-    price:3000,
-    type:"service",
-    img:"https://images.unsplash.com/photo-1599058917211-185b9e1a1ec5",
-    freshaLink:"https://www.fresha.com"
-  },
-  {
-    id:"PROD_FOUNDATION",
-    name:"Foundation",
-    desc:"Full coverage foundation",
-    price:4200,
-    stock:8,
-    type:"product",
-    img:"https://images.unsplash.com/photo-1612197867757-380af0e812a8"
-  }
+// ===== DATA =====
+const services = [
+  {name:"Soft / Natural Makeup",price:3000,img:"https://images.unsplash.com/photo-1599058917211-185b9e1a1ec5",fresha:"book.html"},
+  {name:"Graduation Makeup",price:6000,img:"https://images.unsplash.com/photo-1583084817211-3a8721c14f1a",fresha:"book.html"},
+  {name:"Bridal Makeup",price:12000,img:"https://images.unsplash.com/photo-1590502593745-8a2e6215c2ab",fresha:"book.html"}
+];
+const products = [
+  {name:"Foundation",price:4200,stock:8,img:"https://images.unsplash.com/photo-1612197867757-380af0e812a8"},
+  {name:"Lipstick",price:5250,stock:2,img:"https://images.unsplash.com/photo-1611741301707-317db1b3e24e"}
 ];
 
-localStorage.setItem('products', JSON.stringify(products));
-
-/* ===== CART ===== */
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-document.getElementById('cart-count').innerText = cart.length;
+updateCartCount();
 
-/* ===== RENDER ===== */
-const grid = document.getElementById('products-grid');
-
-products.forEach((p,i)=>{
-  const card=document.createElement('div');
+// ===== RENDER SERVICES =====
+const servicesGrid = document.getElementById('services-grid');
+services.forEach((s)=>{
+  const card = document.createElement('div');
   card.className='card';
-  card.innerHTML=`
-    <img src="${p.img}" style="width:100%;border-radius:12px">
-    <h3>${p.name}</h3>
-    <p>${p.desc}</p>
-    <p class="price">GYD ${p.price}</p>
-    ${
-      p.type === 'product'
-      ? `<button class="button" onclick="addToCart(${i})">Add to Cart</button>`
-      : `<button class="button" onclick="window.open('${p.freshaLink}','_blank')">Book</button>`
-    }
-  `;
-  grid.appendChild(card);
+  card.setAttribute('data-name',s.name);
+  card.setAttribute('data-price',s.price);
+  card.innerHTML=`<img src="${s.img}" alt="${s.name}">
+                  <h3>${s.name}</h3>
+                  <p class="price">GYD ${s.price.toLocaleString()}</p>
+                  <button data-fresha="${s.fresha}">Book Now</button>`;
+  servicesGrid.appendChild(card);
 });
 
-function addToCart(i){
-  cart.push({product:i,qty:1});
-  localStorage.setItem('cart',JSON.stringify(cart));
-  document.getElementById('cart-count').innerText = cart.length;
+// ===== RENDER PRODUCTS =====
+const carouselTrack = document.getElementById('carousel-track');
+products.forEach((p)=>{
+  const card = document.createElement('div');
+  card.className='carousel-card';
+  card.setAttribute('data-name',p.name);
+  card.setAttribute('data-price',p.price);
+  card.setAttribute('data-stock',p.stock);
+  card.innerHTML=`<img src="${p.img}" alt="${p.name}">
+                  <div class="stock-badge">${p.stock}</div>
+                  <h3>${p.name}</h3>
+                  <p class="price">GYD ${p.price.toLocaleString()}</p>
+                  <button>Add to Cart</button>`;
+  carouselTrack.appendChild(card);
+});
+
+// ===== BUTTONS LOGIC =====
+document.querySelectorAll('button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const card = btn.closest('.card') || btn.closest('.carousel-card');
+    if(!card) return;
+
+    if(btn.dataset.fresha){ // Service booking
+      window.open(btn.dataset.fresha,'_blank');
+      return;
+    }
+
+    // Product Add to Cart
+    let stock = parseInt(card.dataset.stock);
+    const name = card.dataset.name;
+    const price = parseInt(card.dataset.price);
+    if(stock===0){ showModal(name+" is out of stock",'error'); return; }
+
+    cart.push({name,price});
+    localStorage.setItem('cart',JSON.stringify(cart));
+    updateCartCount();
+    stock--;
+    card.dataset.stock = stock;
+    card.querySelector('.stock-badge').innerText = stock;
+    showModal(name+" added to cart",'success');
+  });
+});
+
+// ===== MODALS =====
+function showModal(msg,type='success'){
+  const modal=document.getElementById('modal');
+  const box=document.getElementById('modal-box');
+  document.getElementById('modal-message').innerText=msg;
+  box.className='modal-box '+(type==='success'?'success':'error');
+  modal.classList.add('show');
 }
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
+
+// ===== CART PREVIEW =====
+function toggleCartPreview(){ document.getElementById('cart-preview').classList.toggle('show'); renderCartItems(); }
+function closeCartPreview(){ document.getElementById('cart-preview').classList.remove('show'); }
+function renderCartItems(){
+  const container=document.getElementById('cart-items');
+  container.innerHTML='';
+  let total=0;
+  if(cart.length===0){ container.innerHTML='<p>Your cart is empty.</p>'; }
+  else{ cart.forEach((item,index)=>{
+    total+=item.price;
+    const div=document.createElement('div');
+    div.style.display='flex';
+    div.style.justifyContent='space-between';
+    div.style.alignItems='center';
+    div.style.marginBottom='8px';
+    div.innerHTML=`<span>${item.name} - GYD ${item.price}</span><button style="background:#f44336;color:white;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">Remove</button>`;
+    div.querySelector('button').addEventListener('click',()=>{
+      cart.splice(index,1);
+      localStorage.setItem('cart',JSON.stringify(cart));
+      updateCartCount();
+      renderCartItems();
+    });
+    container.appendChild(div);
+  });}
+  document.getElementById('cart-total').innerText=total;
+}
+
+// ===== FLOATING CART =====
+function updateCartCount(){ document.getElementById('cart-count').innerText=cart.length; }
+function checkout(){ window.location.href='checkout.html'; }
+
+// ===== CAROUSEL AUTO-SLIDE =====
+let offset=0;
+function slideCarousel(){
+  const cardWidth=240;
+  offset-=2;
+  if(Math.abs(offset)>(carouselTrack.scrollWidth - carouselTrack.parentElement.offsetWidth)) offset=0;
+  carouselTrack.style.transform='translateX('+offset+'px)';
+}
+setInterval(slideCarousel,50);
+
 </script>
 
+<footer style="text-align:center;padding:20px;">&copy; 2025 Tea | Guyana</footer>
 </body>
 </html>
