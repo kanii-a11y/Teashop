@@ -81,27 +81,72 @@
             font-family: 'Playfair Display', serif;
             margin: 40px 0;
             font-size: 2rem;
+            background: linear-gradient(45deg, #FF8A9D, #FFB6C1, #FF8A9D);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: luxuryShimmer 3s linear infinite;
+            position: relative;
+        }
+        h2::after {
+            content: '✨';
+            position: absolute;
+            right: -40px;
+            top: 0;
+            animation: sparkle 2s infinite;
         }
         h3 {
             color: #FF8A9D;
             font-family: 'Playfair Display', serif;
             margin: 30px 0 15px;
+            background: linear-gradient(45deg, #FF8A9D, #FFB6C1, #FF8A9D);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: luxuryShimmer 3s linear infinite;
         }
         
         section {
             max-width: 900px;
             margin: 20px auto;
-            padding: 20px;
+            padding: 30px;
+            background: linear-gradient(145deg, #ffffff 0%, #fff5f8 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255,138,176,0.15);
+            border: 1px solid rgba(255,182,193,0.3);
+        }
+        
+        @keyframes luxuryShimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
-            background: #fff;
+            background: linear-gradient(145deg, #ffffff 0%, #fff5f8 100%);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 40px rgba(255,138,176,0.15);
+            border: 1px solid rgba(255,182,193,0.3);
         }
         table th, table td {
             padding: 15px;
@@ -109,9 +154,16 @@
             border-bottom: 1px solid #ffe8ee;
         }
         table th {
-            background: #FF8A9D;
+            background: linear-gradient(135deg, #FF8A9D 0%, #FFB6C1 100%);
             color: #fff;
             font-weight: 600;
+        }
+        table tr {
+            transition: all 0.3s ease;
+        }
+        table tr:hover {
+            background: rgba(255,138,176,0.05);
+            transform: scale(1.01);
         }
         
         input, select, textarea {
@@ -134,7 +186,7 @@
         }
         
         button {
-            background: #FF8A9D;
+            background: linear-gradient(135deg, #FF8A9D 0%, #FFB6C1 100%);
             color: white;
             border: none;
             padding: 14px 32px;
@@ -142,12 +194,33 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 6px 18px rgba(255,138,157,0.35);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 1rem;
+            position: relative;
+            overflow: hidden;
         }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
         button:hover {
-            background: #ff6f86;
-            transform: scale(1.05);
+            background: linear-gradient(135deg, #ff6f86 0%, #FF8A9D 100%);
+            transform: scale(1.08) translateY(-2px);
             box-shadow: 0 8px 24px rgba(255,138,157,0.45);
         }
         
@@ -157,15 +230,30 @@
             gap: 8px;
         }
         .quantity-controls button {
-            padding: 6px 12px;
-            font-size: 0.9rem;
-            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #FF8A9D 0%, #FFB6C1 100%);
+            transition: all 0.3s ease;
+        }
+        .quantity-controls button:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(255,138,176,0.5);
+        }
+        .quantity-controls span {
+            min-width: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #FF8A9D;
         }
         .remove-btn {
-            background: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #e57373 100%) !important;
+            padding: 8px 16px !important;
         }
         .remove-btn:hover {
-            background: #d32f2f;
+            background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%) !important;
+            transform: scale(1.1);
         }
         
         #confirmation-screen {
@@ -175,25 +263,49 @@
             opacity: 0;
             transition: opacity 0.5s;
             padding: 40px;
-            background: rgba(255,138,176,0.05);
+            background: linear-gradient(145deg, rgba(255,245,248,0.9), rgba(255,232,238,0.9));
             border-radius: 20px;
+            border: 2px solid rgba(255,138,176,0.4);
+            box-shadow: 0 15px 50px rgba(255,138,176,0.3);
         }
         #confirmation-screen.show {
             display: block;
             opacity: 1;
+            animation: celebrationPulse 1s ease-in-out;
+        }
+        @keyframes celebrationPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         #confirmation-screen h2 {
             color: #4CAF50;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A, #4CAF50);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: luxuryShimmer 3s linear infinite;
+        }
+        #confirmation-screen h2::after {
+            content: '🎉';
         }
         
         #use-location {
             margin-bottom: 15px;
-            background: #FFCE00;
+            background: linear-gradient(135deg, #FFCE00 0%, #FFD700 100%);
             color: #333;
             font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255,206,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        #use-location::before {
+            content: '📍';
+            margin-right: 8px;
         }
         #use-location:hover {
-            background: #FFB800;
+            background: linear-gradient(135deg, #FFB800 0%, #FFCE00 100%);
+            box-shadow: 0 6px 20px rgba(255,206,0,0.6);
         }
         
         #map {
@@ -205,20 +317,33 @@
         }
         
         .totals-box {
-            background: rgba(255,138,176,0.05);
-            padding: 20px;
-            border-radius: 12px;
+            background: linear-gradient(145deg, rgba(255,245,248,0.8), rgba(255,232,238,0.8));
+            padding: 25px;
+            border-radius: 16px;
             margin: 20px 0;
+            border: 2px dashed rgba(255,138,176,0.6);
+            box-shadow: 0 8px 25px rgba(255,138,176,0.2);
+            transition: all 0.3s ease;
+        }
+        .totals-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255,138,176,0.3);
+            border: 2px dashed rgba(255,138,176,1);
         }
         .totals-box p {
             margin: 10px 0;
             font-size: 1.1rem;
         }
         .totals-box p:last-child {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            color: #FF8A9D;
-            border-top: 2px solid #FF8A9D;
+            background: linear-gradient(45deg, #FF8A9D, #FFB6C1, #FF8A9D);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: luxuryShimmer 3s linear infinite;
+            border-top: 2px solid rgba(255,138,176,0.6);
             padding-top: 15px;
             margin-top: 15px;
         }
