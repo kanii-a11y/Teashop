@@ -38,6 +38,17 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
 /* ===== SEARCH BAR ===== */
 .search-bar{width:90%;max-width:400px;margin:0 auto 30px;display:block;padding:10px 15px;border-radius:30px;border:1px solid #ccc;font-size:1rem;}
 
+/* ===== SPLASH CAROUSEL ===== */
+.splash-banner-carousel{position:relative;width:90%;max-width:800px;margin:20px auto;overflow:hidden;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+.splash-banner-carousel .slides{display:flex;transition:transform 0.5s ease-in-out;}
+.splash-banner-carousel img{width:100%;flex-shrink:0;object-fit:cover;object-position:center center;}
+.splash-banner-carousel .prev,.splash-banner-carousel .next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.3);color:white;border:none;padding:8px 12px;cursor:pointer;border-radius:50%;font-size:18px;z-index:2;}
+.splash-banner-carousel .prev{left:10px;}
+.splash-banner-carousel .next{right:10px;}
+.splash-banner-carousel .dots{position:absolute;bottom:10px;width:100%;text-align:center;z-index:2;}
+.splash-banner-carousel .dot{display:inline-block;width:10px;height:10px;margin:0 5px;background:#fff;border-radius:50%;opacity:0.5;cursor:pointer;}
+.splash-banner-carousel .dot.active{opacity:1;}
+
 /* ===== PRODUCT GRID ===== */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;padding:0 40px 80px;}
 
@@ -49,12 +60,8 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
 .price{font-weight:bold;margin:10px 0;color:#FF8A9D;}
 .stock-badge{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:#FF6F86;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:bold;}
 .badge{position:absolute;top:10px;left:10px;background:#FFCE00;color:#333;font-weight:bold;padding:4px 10px;border-radius:12px;font-size:0.8rem;margin-bottom:4px;display:inline-block;}
-
-/* ===== SERVICE CARD STYLE ===== */
 .product-type-service{border:2px dashed #FF8A9D;background:rgba(255,138,176,0.05);}
 .product-type-service:hover{background:rgba(255,138,176,0.1);transform:translateY(-7px) scale(1.03);box-shadow:0 15px 35px rgba(255,138,176,0.35);}
-
-/* ===== DESCRIPTION ===== */
 .description{font-size:0.9rem;color:#555;margin-bottom:10px;}
 .product-id{font-size:0.75rem;color:#999;margin-bottom:5px;}
 
@@ -117,6 +124,18 @@ for(let i=0;i<30;i++){
 
 <!-- SEARCH BAR -->
 <input type="text" id="search-bar" class="search-bar" placeholder="Search products/services...">
+
+<!-- SPLASH BANNER CAROUSEL -->
+<div class="splash-banner-carousel">
+  <div class="slides">
+    <img src="https://images.pexels.com/photos/7810570/pexels-photo-7810570.jpeg" alt="Slide 1">
+    <img src="https://images.pexels.com/photos/18459701/pexels-photo-18459701.jpeg" alt="Slide 2">
+    <img src="https://images.pexels.com/photos/4207790/pexels-photo-4207790.jpeg" alt="Slide 3">
+  </div>
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
+  <div class="dots"></div>
+</div>
 
 <!-- PRODUCT GRID -->
 <div class="grid" id="products-grid"></div>
@@ -184,23 +203,31 @@ function renderProducts(filter=''){
       ${p.type==='product'?`<span class="stock-badge">${p.stock}</span><p class="price">GYD ${p.price.toLocaleString()}</p><button class="button" id="add-${index}">Add to Cart</button>`:`<button class="button button-book" onclick="window.open('${p.freshaLink}','_blank')">Book</button>`}
     `;
     grid.appendChild(card);
-    if(p.type==='product'){
-      document.getElementById(`add-${index}`).addEventListener('click',()=>{
-        if(p.stock<=0){ showToast(`${p.name} is out of stock!`); return; }
-        const existing=cart.find(c=>c.index===index);
-        if(existing){ existing.quantity++; } else{ cart.push({name:p.name,price:p.price,index:index,quantity:1}); }
-        p.stock--;
-        localStorage.setItem('products',JSON.stringify(products));
-        saveCart();
-        showToast(`${p.name} added to cart`);
-      });
-    }
+    if(p.type==='product'){ document.getElementById(`add-${index}`).addEventListener('click',()=>{
+      if(p.stock<=0){ showToast(`${p.name} is out of stock!`); return; }
+      const existing=cart.find(c=>c.index===index);
+      if(existing){ existing.quantity++; } else{ cart.push({name:p.name,price:p.price,index:index,quantity:1}); }
+      p.stock--; saveCart(); showToast(`${p.name} added to cart`);
+    }); }
   });
 }
 renderProducts();
 document.getElementById('search-bar').addEventListener('input',e=>renderProducts(e.target.value));
-updateCartCount();
-</script>
 
+// ===== SPLASH CAROUSEL =====
+const carousel=document.querySelector('.splash-banner-carousel');
+const slides=carousel.querySelector('.slides');
+const images=slides.querySelectorAll('img');
+const prev=carousel.querySelector('.prev');
+const next=carousel.querySelector('.next');
+const dotsContainer=carousel.querySelector('.dots');
+let current=0;
+function goToSlide(n){ current=(n+images.length)%images.length; slides.style.transform=`translateX(-${current*100}%)`; dotsContainer.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current)); }
+images.forEach(()=>{ const dot=document.createElement('span'); dot.className='dot'; dot.addEventListener('click',()=>goToSlide([...dotsContainer.children].indexOf(dot))); dotsContainer.appendChild(dot); });
+goToSlide(0);
+prev.addEventListener('click',()=>goToSlide(current-1));
+next.addEventListener('click',()=>goToSlide(current+1));
+setInterval(()=>goToSlide(current+1),4000); // auto slide
+</script>
 </body>
 </html>
