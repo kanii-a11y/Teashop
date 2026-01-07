@@ -210,21 +210,46 @@
         
         /* ===== BUTTONS ===== */
         .button {
-            background: #FF8A9D;
+            background: linear-gradient(135deg, #FF8A9D 0%, #FFB6C1 100%);
             color: white;
             border: none;
             padding: 12px 28px;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(255,138,157,0.4);
             font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
         .button:hover {
-            background: #ff6f86;
-            transform: scale(1.05);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #ff6f86 0%, #FF8A9D 100%);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,138,157,0.6);
+        }
+        
+        .button:active {
+            transform: scale(0.95);
         }
         
         /* ===== SEARCH BAR ===== */
@@ -329,34 +354,110 @@
             padding: 0 40px;
             margin-bottom: 60px;
         }
+        
+        /* Luxury shimmer effect */
+        @keyframes luxuryShimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        
+        /* Sparkle effect */
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
         .card {
-            background: #fff;
-            border-radius: 16px;
+            background: linear-gradient(145deg, #ffffff 0%, #fff5f8 100%);
+            border-radius: 20px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 40px rgba(255,138,176,0.15);
             position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: 1px solid rgba(255,182,193,0.3);
         }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,192,203,0.3),
+                transparent
+            );
+            transition: left 0.7s;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        .card::after {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: sparkle 2s infinite;
+            animation-delay: 0.5s;
+        }
+        
         .card:hover {
-            transform: translateY(-7px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(255,138,176,0.35);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 60px rgba(255,138,176,0.4);
+            border: 2px solid rgba(255,138,176,0.6);
+            background: linear-gradient(145deg, #fff5f8 0%, #ffe8ee 100%);
         }
+        
+        .card:hover::after {
+            opacity: 1;
+        }
+        
         .card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 15px;
-            transition: transform 0.4s ease;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
+        
         .card img:hover {
-            transform: scale(1.05);
+            transform: scale(1.08) rotate(-2deg);
+            box-shadow: 0 15px 35px rgba(255,138,176,0.5);
+            filter: brightness(1.05) saturate(1.1);
         }
+        
         .card h3 {
             color: #333;
             margin: 10px 0;
             font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(45deg, #FF8A9D, #FFB6C1, #FF8A9D);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: luxuryShimmer 3s linear infinite;
         }
         .description {
             font-size: 0.9rem;
@@ -398,8 +499,36 @@
             font-size: 0.8rem;
         }
         .product-type-service {
-            border: 2px dashed #FF8A9D;
-            background: rgba(255,138,176,0.05);
+            border: 2px dashed rgba(255,138,176,0.6);
+            background: linear-gradient(145deg, rgba(255,245,248,0.8), rgba(255,232,238,0.8));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-type-service::before {
+            content: '💄';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .product-type-service:hover {
+            background: linear-gradient(145deg, rgba(255,232,238,1), rgba(255,215,225,1));
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 60px rgba(255,138,176,0.5);
+            border: 2px dashed rgba(255,138,176,1);
         }
         
         /* ===== FLOATING CART ===== */
@@ -407,35 +536,57 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #FF8A9D;
+            background: linear-gradient(135deg, #FF8A9D 0%, #FFB6C1 100%);
             color: #fff;
-            padding: 14px 20px;
+            padding: 16px 24px;
             border-radius: 50px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 30px rgba(255,138,157,0.5);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             z-index: 1000;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        #floating-cart::before {
+            content: '✨';
+            font-size: 1.2rem;
+            animation: sparkle 2s infinite;
         }
         #floating-cart:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255,138,157,0.7);
+            background: linear-gradient(135deg, #ff6f86 0%, #FF8A9D 100%);
         }
         #cart-count {
             background: #fff;
             color: #FF8A9D;
-            min-width: 24px;
-            height: 24px;
+            min-width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: bold;
-            padding: 0 6px;
+            padding: 0 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+        
+        .cart-pulse {
+            animation: pulse 0.5s ease-in-out;
         }
         
         /* ===== CART MODAL ===== */
@@ -704,7 +855,13 @@
         // ===== UPDATE CART COUNT =====
         function updateCartCount() {
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').innerText = count;
+            const countEl = document.getElementById('cart-count');
+            countEl.innerText = count;
+            
+            // Add pulse animation
+            countEl.classList.remove('cart-pulse');
+            void countEl.offsetWidth; // Trigger reflow
+            countEl.classList.add('cart-pulse');
         }
 
         // ===== RENDER SERVICES =====
@@ -879,8 +1036,12 @@
 
         // ===== CART MODAL =====
         document.getElementById('floating-cart').addEventListener('click', () => {
-            document.getElementById('cart-modal').classList.add('show');
-            renderCart();
+            if (cart.length === 0) {
+                showToast('Your cart is empty!');
+                return;
+            }
+            // Navigate to checkout page
+            window.location.href = 'checkout.html';
         });
 
         function closeCart() {
@@ -889,19 +1050,7 @@
 
         // ===== CHECKOUT =====
         function checkout() {
-            if (cart.length === 0) {
-                showToast('Your cart is empty!');
-                return;
-            }
-            
-            const address = document.getElementById('cart-address').value;
-            const total = cart.reduce((sum, item) => sum + (item.quantity * item.price), 0);
-            
-            alert(`Checkout Summary:\n\nItems: ${cart.length}\nTotal: GYD ${total.toLocaleString()}\n${address ? 'Address: ' + address : ''}\n\nThank you for your order!`);
-            
-            cart = [];
-            saveCart();
-            closeCart();
+            window.location.href = 'checkout.html';
         }
 
         // ===== SEARCH =====
