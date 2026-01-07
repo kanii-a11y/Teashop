@@ -72,7 +72,6 @@
         header nav a:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
         header nav a:nth-child(2) { animation-delay: 0.2s; opacity: 0; }
         header nav a:nth-child(3) { animation-delay: 0.3s; opacity: 0; }
-        header nav a:nth-child(4) { animation-delay: 0.4s; opacity: 0; }
         
         h2 {
             text-align: center;
@@ -94,7 +93,7 @@
         }
         
         button {
-            background: #FF8A9D;
+            background: linear-gradient(135deg, #FF8A9D 0%, #FFB6C1 100%);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -102,11 +101,32 @@
             font-weight: bold;
             cursor: pointer;
             margin: 5px 0;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
         button:hover {
-            background: #ff6f86;
+            background: linear-gradient(135deg, #ff6f86 0%, #FF8A9D 100%);
             transform: scale(1.05);
             box-shadow: 0 6px 18px rgba(0,0,0,0.3);
         }
@@ -133,25 +153,76 @@
             margin-top: 20px;
         }
         
+        @keyframes luxuryShimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
         .card {
-            background: #fff;
+            background: linear-gradient(145deg, #ffffff 0%, #fff5f8 100%);
             border-radius: 16px;
             padding: 15px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             position: relative;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255,182,193,0.3);
+            overflow: hidden;
         }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,192,203,0.3),
+                transparent
+            );
+            transition: left 0.7s;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(255,138,176,0.35);
+            border: 2px solid rgba(255,138,176,0.6);
         }
+        
         .card img {
             width: 100%;
             height: 180px;
             object-fit: cover;
             border-radius: 12px;
             margin-bottom: 10px;
+            transition: all 0.4s ease;
+        }
+        
+        .card img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255,138,176,0.4);
         }
         
         .stock-badge {
@@ -301,7 +372,6 @@
         <nav>
             <a href="index.html">Shop</a>
             <a href="book.html">Book</a>
-            <a href="checkout.html">Checkout</a>
             <a href="admin.html">Admin</a>
         </nav>
     </header>
@@ -401,6 +471,7 @@
             }).forEach((p, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                card.setAttribute('data-index', index);
                 
                 let badgesHTML = '';
                 if (p.type === 'service') badgesHTML += '<div class="badge">Service</div>';
@@ -413,13 +484,13 @@
                 
                 card.innerHTML = `
                     ${badgesHTML}
-                    <img src="${p.img}" alt="${p.name}">
+                    <img src="${p.img}" alt="${p.name}" id="product-img-${index}">
                     <p class="product-id">ID: ${p.id}</p>
                     <input type="text" value="${p.name}" onchange="updateProduct(${index}, 'name', this.value)">
                     <textarea onchange="updateProduct(${index}, 'desc', this.value)" rows="2">${p.desc || ''}</textarea>
                     <input type="number" value="${p.price}" placeholder="Price" onchange="updateProduct(${index}, 'price', this.value)">
                     <input type="number" value="${p.stock}" placeholder="Stock" onchange="updateProduct(${index}, 'stock', this.value)">
-                    <input type="text" value="${p.img}" placeholder="Image URL" onchange="updateProduct(${index}, 'img', this.value)">
+                    <input type="text" value="${p.img}" placeholder="Image URL" onchange="updateProduct(${index}, 'img', this.value)" id="img-input-${index}">
                     <label><input type="checkbox" ${p.trending ? 'checked' : ''} onchange="updateProduct(${index}, 'trending', this.checked)"> Trending</label>
                     <button onclick="deleteProduct(${index})" style="background:#f44336;width:100%;margin-top:10px;">Delete</button>
                 `;
@@ -469,6 +540,15 @@
             if (key === 'price' || key === 'stock') value = Number(value);
             products[index][key] = value;
             localStorage.setItem('products', JSON.stringify(products));
+            
+            // If image URL was updated, instantly update the preview
+            if (key === 'img') {
+                const imgElement = document.getElementById(`product-img-${index}`);
+                if (imgElement) {
+                    imgElement.src = value;
+                }
+            }
+            
             showModal(`✅ Updated ${key}`);
         }
 
