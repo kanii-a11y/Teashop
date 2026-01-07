@@ -2,30 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Tea | Shop</title>
+<title>Tea | Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
 <style>
-/* ===== GENERAL ===== */
 body{font-family:'Lato',sans-serif;margin:0;background:#fff;color:#333;}
-header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999;}
+header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;}
 header strong{font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;}
-header nav a{color:#fff;margin:0 12px;text-decoration:none;font-weight:600;transition:all 0.3s;}
-header nav a:hover{transform:scale(1.05);color:#ffebf0;}
-h2,h3{text-align:center;color:#FF8A9D;font-family:'Playfair Display',serif;margin:20px 0;}
-input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border:1px solid #ccc;}
-.button{background:#FF8A9D;color:white;border:none;padding:10px 24px;border-radius:30px;font-weight:bold;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
-.button:hover{background:#ff6f86;transform:scale(1.05);}
-.hero{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px;padding:40px;position:relative;overflow:hidden;}
-.hero-img img{width:100%;border-radius:20px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;padding:0 40px 80px;}
-.card{background:#fff;border-radius:16px;padding:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.08);position:relative;}
-.price{font-weight:bold;margin:10px 0;color:#FF8A9D;}
-.badge{position:absolute;top:10px;left:10px;background:#FFCE00;padding:4px 10px;border-radius:12px;font-size:0.8rem;}
-.product-type-service{border:2px dashed #FF8A9D;}
-#floating-cart{position:fixed;bottom:20px;right:20px;background:#FF8A9D;color:#fff;padding:14px 20px;border-radius:50px;cursor:pointer;}
-#cart-count{background:#fff;color:#FF8A9D;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;}
+header nav a{color:#fff;margin:0 12px;text-decoration:none;font-weight:600;}
+.hero{text-align:center;padding:60px 20px;}
+.hero h1{font-family:'Playfair Display',serif;color:#FF8A9D;}
+.button{background:#FF8A9D;color:#fff;border:none;padding:12px 26px;border-radius:30px;font-weight:bold;cursor:pointer;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;padding:40px;}
+.card{background:#fff;border-radius:16px;padding:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+.price{font-weight:bold;color:#FF8A9D;}
+#floating-cart{position:fixed;bottom:20px;right:20px;background:#FF8A9D;color:#fff;padding:14px 20px;border-radius:50px;}
+#cart-count{background:#fff;color:#FF8A9D;border-radius:50%;padding:2px 8px;margin-left:6px;}
 </style>
 </head>
 
@@ -40,21 +33,20 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
   </nav>
 </header>
 
-<div class="hero">
-  <div class="hero-img">
-    <img src="https://images.pexels.com/photos/18459701/pexels-photo-18459701.jpeg">
-  </div>
-  <div>
-    <h1>Selfcare and Beauty in Harmony</h1>
-    <button class="button" onclick="location.href='shop.html'">Shop Now</button>
-  </div>
-</div>
+<section class="hero">
+  <h1>Selfcare and Beauty in Harmony</h1>
+  <p>Your journey to radiant confidence starts here</p>
+  <button class="button" onclick="location.href='shop.html'">Shop Now</button>
+</section>
 
 <div class="grid" id="products-grid"></div>
-<div id="floating-cart">Cart <span id="cart-count">0</span></div>
+
+<div id="floating-cart">
+  Cart <span id="cart-count">0</span>
+</div>
 
 <script>
-/* ===== DEFAULT PRODUCTS (GitHub Pages fallback) ===== */
+/* ===== PRODUCTS ===== */
 let products = JSON.parse(localStorage.getItem('products')) || [
   {
     id:"SERV_SOFT",
@@ -72,45 +64,42 @@ let products = JSON.parse(localStorage.getItem('products')) || [
     price:4200,
     stock:8,
     type:"product",
-    img:"https://images.unsplash.com/photo-1612197867757-380af0e812a8",
-    trending:true
+    img:"https://images.unsplash.com/photo-1612197867757-380af0e812a8"
   }
 ];
 
-if(!localStorage.getItem('products')){
-  localStorage.setItem('products',JSON.stringify(products));
-}
+localStorage.setItem('products', JSON.stringify(products));
 
+/* ===== CART ===== */
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+document.getElementById('cart-count').innerText = cart.length;
 
-const grid=document.getElementById('products-grid');
+/* ===== RENDER ===== */
+const grid = document.getElementById('products-grid');
 
-function renderProducts(){
-  grid.innerHTML='';
-  products.forEach((p,i)=>{
-    const card=document.createElement('div');
-    card.className='card'+(p.type==='service'?' product-type-service':'');
-    card.innerHTML=`
-      ${p.type==='service'?'<div class="badge">Service</div>':''}
-      <img src="${p.img}" width="100%">
-      <h3>${p.name}</h3>
-      <p>${p.desc}</p>
-      <p class="price">GYD ${p.price}</p>
-      ${p.type==='product'?`<button onclick="addToCart(${i})">Add to Cart</button>`:
-      `<button onclick="window.open('${p.freshaLink}','_blank')">Book</button>`}
-    `;
-    grid.appendChild(card);
-  });
-}
-renderProducts();
+products.forEach((p,i)=>{
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`
+    <img src="${p.img}" style="width:100%;border-radius:12px">
+    <h3>${p.name}</h3>
+    <p>${p.desc}</p>
+    <p class="price">GYD ${p.price}</p>
+    ${
+      p.type === 'product'
+      ? `<button class="button" onclick="addToCart(${i})">Add to Cart</button>`
+      : `<button class="button" onclick="window.open('${p.freshaLink}','_blank')">Book</button>`
+    }
+  `;
+  grid.appendChild(card);
+});
 
 function addToCart(i){
-  cart.push({i,qty:1});
-  document.getElementById('cart-count').innerText=cart.length;
+  cart.push({product:i,qty:1});
   localStorage.setItem('cart',JSON.stringify(cart));
+  document.getElementById('cart-count').innerText = cart.length;
 }
 </script>
 
 </body>
 </html>
-
