@@ -57,6 +57,53 @@
             overflow: hidden;
             background: linear-gradient(135deg, #fff 0%, #ffe8ee 100%);
         }
+        
+        /* ===== FLOATING PETALS ANIMATION ===== */
+        .petal {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: floatPetal 8s infinite linear;
+        }
+        @keyframes floatPetal {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            25% {
+                transform: translate(20px, -50px) rotate(45deg) scale(1.1);
+            }
+            50% {
+                transform: translate(-15px, -150px) rotate(90deg) scale(0.9);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translate(30px, -250px) rotate(135deg) scale(1.05);
+            }
+            100% {
+                transform: translate(-20px, -400px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* Shimmer animation for text */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        .hero-text h1 {
+            background: linear-gradient(90deg, #FF8A9D 0%, #FFB6C1 25%, #FF8A9D 50%, #FFB6C1 75%, #FF8A9D 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
         .hero-img {
             flex: 1 1 400px;
             position: relative;
@@ -85,7 +132,8 @@
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
             margin-bottom: 20px;
-            color: #FF8A9D;
+            position: relative;
+            z-index: 2;
         }
         .hero-text p {
             font-size: 1.2rem;
@@ -474,7 +522,7 @@
     <!-- HERO -->
     <div class="hero" id="home">
         <div class="hero-img">
-            <img src="https://images.pexels.com/photos/18459701/pexels-photo-18459701.jpeg" alt="Selfcare & Beauty">
+            <img src="https://images.pexels.com/photos/2661256/pexels-photo-2661256.jpeg" alt="Selfcare & Beauty">
         </div>
         <div class="hero-text">
             <h1>Selfcare and Beauty in Harmony</h1>
@@ -537,18 +585,18 @@
     <script>
         // ===== DATA =====
         const services = [
-            {id: 'S001', name: 'Soft / Natural Makeup', desc: 'Perfect for everyday elegance', price: 3000, type: 'service', img: 'https://images.unsplash.com/photo-1599058917211-185b9e1a1ec5?w=600'},
-            {id: 'S002', name: 'Graduation Makeup', desc: 'Look stunning on your big day', price: 6000, type: 'service', img: 'https://images.unsplash.com/photo-1583084817211-3a8721c14f1a?w=600'},
-            {id: 'S003', name: 'Bridal Makeup', desc: 'Luxury bridal experience', price: 12000, type: 'service', img: 'https://images.unsplash.com/photo-1590502593745-8a2e6215c2ab?w=600'}
+            {id: 'S001', name: 'Soft / Natural Makeup', desc: 'Perfect for everyday elegance', price: 3000, type: 'service', img: 'https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=600'},
+            {id: 'S002', name: 'Graduation Makeup', desc: 'Look stunning on your big day', price: 6000, type: 'service', img: 'https://images.pexels.com/photos/3373729/pexels-photo-3373729.jpeg?auto=compress&cs=tinysrgb&w=600'},
+            {id: 'S003', name: 'Bridal Makeup', desc: 'Luxury bridal experience', price: 12000, type: 'service', img: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=600'}
         ];
 
         const products = [
-            {id: 'M001', name: 'Red Lipstick', desc: 'Bold and vibrant', price: 1500, stock: 10, type: 'product', img: 'https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg'},
-            {id: 'M002', name: 'Eyeshadow Palette', desc: '12 stunning colors', price: 3500, stock: 5, type: 'product', img: 'https://images.pexels.com/photos/373755/pexels-photo-373755.jpeg'},
-            {id: 'M003', name: 'Foundation', desc: 'Flawless coverage', price: 4200, stock: 8, type: 'product', img: 'https://images.unsplash.com/photo-1612197867757-380af0e812a8?w=600'},
-            {id: 'M004', name: 'Mascara', desc: 'Volumizing formula', price: 2000, stock: 15, type: 'product', img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg'},
-            {id: 'M005', name: 'Blush', desc: 'Natural glow', price: 1800, stock: 12, type: 'product', img: 'https://images.unsplash.com/photo-1611741301707-317db1b3e24e?w=600'},
-            {id: 'M006', name: 'Makeup Brushes Set', desc: 'Professional quality', price: 5000, stock: 3, type: 'product', img: 'https://images.pexels.com/photos/18459701/pexels-photo-18459701.jpeg'}
+            {id: 'M001', name: 'Red Lipstick', desc: 'Bold and vibrant', price: 1500, stock: 10, type: 'product', img: 'https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg?auto=compress&cs=tinysrgb&w=600'},
+            {id: 'M002', name: 'Eyeshadow Palette', desc: '12 stunning colors', price: 3500, stock: 5, type: 'product', img: 'https://images.pexels.com/photos/373755/pexels-photo-373755.jpeg?auto=compress&cs=tinysrgb&w=600'},
+            {id: 'M003', name: 'Foundation', desc: 'Flawless coverage', price: 4200, stock: 8, type: 'product', img: 'https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=600'},
+            {id: 'M004', name: 'Mascara', desc: 'Volumizing formula', price: 2000, stock: 15, type: 'product', img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600'},
+            {id: 'M005', name: 'Blush', desc: 'Natural glow', price: 1800, stock: 12, type: 'product', img: 'https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=600'},
+            {id: 'M006', name: 'Makeup Brushes Set', desc: 'Professional quality', price: 5000, stock: 3, type: 'product', img: 'https://images.pexels.com/photos/3373727/pexels-photo-3373727.jpeg?auto=compress&cs=tinysrgb&w=600'}
         ];
 
         let cart = [];
@@ -827,6 +875,27 @@
         loadCart();
         renderServices();
         renderProducts();
+        
+        // ===== FLOATING PETALS ANIMATION =====
+        function createPetals() {
+            const hero = document.querySelector('.hero');
+            const colors = ['#FFB6C1', '#FF8A9D', '#FFC0CB', '#FFE4E1', '#FF69B4'];
+            
+            for (let i = 0; i < 15; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.width = Math.random() * 30 + 15 + 'px';
+                petal.style.height = petal.style.width;
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.bottom = '-50px';
+                petal.style.background = colors[Math.floor(Math.random() * colors.length)];
+                petal.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                hero.appendChild(petal);
+            }
+        }
+        
+        createPetals();
     </script>
 </body>
 </html>
