@@ -1,225 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Tea | Checkout</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Lato',sans-serif;background:#fff;color:#333;line-height:1.6;padding:20px;}
-header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-header strong{font-family:'Playfair Display', serif;font-size:1.8rem;}
-header nav a{color:white;margin:0 12px;text-decoration:none;font-weight:600;font-size:0.95rem;}
-h2{color:#FF8A9D;text-align:center;font-family:'Playfair Display', serif;margin-bottom:40px;font-size:2rem;}
-table{width:100%;border-collapse:collapse;margin-bottom:20px;}
-table th, table td{padding:12px;border-bottom:1px solid #ddd;text-align:left;}
-input, select, textarea{width:100%;padding:10px;margin:6px 0 12px;border-radius:8px;border:1px solid #ccc;font-family:'Lato',sans-serif;font-size:0.95rem;}
-textarea{resize:vertical;}
-button{background:#FF8A9D;color:white;border:none;padding:12px 28px;border-radius:30px;font-weight:bold;cursor:pointer;box-shadow:0 6px 18px rgba(255,138,157,0.35);transition:all 0.3s ease;}
-button:hover{background:#ff6f86;}
-#map{width:100%;height:300px;margin-bottom:20px;border-radius:12px;}
-footer{text-align:center;padding:25px 0;background:#fff0f3;margin-top:50px;}
-.quantity-controls{display:flex;align-items:center;gap:6px;}
-.quantity-controls button{padding:4px 10px;font-size:0.9rem;border-radius:6px;}
-.remove-btn{background:#f44336;}
-.remove-btn:hover{background:#d32f2f;}
-#confirmation-screen{text-align:center;display:none;margin-top:40px;opacity:0;transition:opacity 0.5s;}
-#confirmation-screen.show{display:block;opacity:1;}
-#use-location{margin-bottom:10px;background:#FFCE00;color:#333;border-radius:8px;padding:8px 12px;font-weight:bold;cursor:pointer;}
-</style>
+    <meta charset="UTF-8">
+    <title>Tea | Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* ===== HEADER ===== */
+        header {
+            background: #FF8A9D;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        header strong {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+        header nav a {
+            color: #fff;
+            margin: 0 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        header nav a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: #fff;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        header nav a:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+        header nav a:hover::before {
+            width: 80%;
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        header nav a {
+            animation: fadeInDown 0.6s ease-out forwards;
+        }
+        header nav a:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
+        header nav a:nth-child(2) { animation-delay: 0.2s; opacity: 0; }
+        header nav a:nth-child(3) { animation-delay: 0.3s; opacity: 0; }
+        header nav a:nth-child(4) { animation-delay: 0.4s; opacity: 0; }
+        
+        h2 {
+            color: #FF8A9D;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            margin: 40px 0;
+            font-size: 2rem;
+        }
+        h3 {
+            color: #FF8A9D;
+            font-family: 'Playfair Display', serif;
+            margin: 30px 0 15px;
+        }
+        
+        section {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ffe8ee;
+        }
+        table th {
+            background: #FF8A9D;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 16px;
+            border-radius: 12px;
+            border: 2px solid #FFB6C1;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #FF8A9D;
+            box-shadow: 0 0 15px rgba(255,138,157,0.3);
+        }
+        textarea {
+            resize: vertical;
+        }
+        
+        button {
+            background: #FF8A9D;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(255,138,157,0.35);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        button:hover {
+            background: #ff6f86;
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(255,138,157,0.45);
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .quantity-controls button {
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+        }
+        .remove-btn {
+            background: #f44336;
+        }
+        .remove-btn:hover {
+            background: #d32f2f;
+        }
+        
+        #confirmation-screen {
+            text-align: center;
+            display: none;
+            margin-top: 60px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            padding: 40px;
+            background: rgba(255,138,176,0.05);
+            border-radius: 20px;
+        }
+        #confirmation-screen.show {
+            display: block;
+            opacity: 1;
+        }
+        #confirmation-screen h2 {
+            color: #4CAF50;
+        }
+        
+        #use-location {
+            margin-bottom: 15px;
+            background: #FFCE00;
+            color: #333;
+            font-weight: bold;
+        }
+        #use-location:hover {
+            background: #FFB800;
+        }
+        
+        #map {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border: 2px solid #FFB6C1;
+        }
+        
+        .totals-box {
+            background: rgba(255,138,176,0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .totals-box p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+        .totals-box p:last-child {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #FF8A9D;
+            border-top: 2px solid #FF8A9D;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #333;
+            color: #fff;
+            margin-top: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 15px;
+            }
+            table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-<strong>Tea</strong>
-<nav>
-<a href="index.html">Home</a>
-<a href="book.html">Book</a>
-<a href="shop.html">Shop</a>
-</nav>
-</header>
+    <header>
+        <strong>Tea</strong>
+        <nav>
+            <a href="index.html">Shop</a>
+            <a href="book.html">Book</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+    </header>
 
-<section id="checkout-section">
-<h2>Checkout</h2>
+    <section id="checkout-section">
+        <h2>🛒 Checkout</h2>
 
-<table id="cart-table">
-<thead>
-<tr><th>Item</th><th>Qty</th><th>Price</th><th>Action</th></tr>
-</thead>
-<tbody></tbody>
-</table>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-<p><strong>Subtotal:</strong> GYD <span id="subtotal">0</span></p>
-<p><strong>Tax (14%):</strong> GYD <span id="tax">0</span></p>
-<p><strong>Delivery Fee:</strong> GYD <span id="delivery-fee">0</span></p>
-<p><strong>Total:</strong> GYD <span id="total">0</span></p>
-
-<h3>Personal Information</h3>
-<input type="text" id="first-name" placeholder="First Name">
-<input type="text" id="last-name" placeholder="Last Name">
-<input type="tel" id="phone-number" placeholder="Telephone Number">
-
-<h3>Delivery Address</h3>
-<button id="use-location">Use My Current Location</button>
-<div id="map"></div>
-<textarea id="delivery-address" rows="4" placeholder="Enter your address"></textarea>
-
-<h3>Payment Method</h3>
-<select id="payment-method">
-<option value="cash">Cash</option>
-<option value="mmg">MMG</option>
-</select>
-
-<button onclick="placeOrder()">Place Order</button>
-</section>
-
-<section id="confirmation-screen">
-<h2>Order Confirmed</h2>
-<p>Your order has been placed successfully.</p>
-<p><strong>Total:</strong> GYD <span id="confirm-total"></span></p>
-<p><strong>Address:</strong></p>
-<p id="confirm-address"></p>
-<p><strong>Status:</strong> Pending</p>
-<button onclick="window.location.href='index.html'">Back Home</button>
-</section>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
-<script>
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let products = JSON.parse(localStorage.getItem('products')) || [];
-let subtotal=0, tax=0, deliveryFee=500;
-
-const tbody=document.querySelector('#cart-table tbody');
-const subtotalEl=document.getElementById('subtotal');
-const taxEl=document.getElementById('tax');
-const deliveryEl=document.getElementById('delivery-fee');
-const totalEl=document.getElementById('total');
-const deliveryAddressEl=document.getElementById('delivery-address');
-const phoneInput = document.getElementById('phone-number');
-
-// ===== PHONE NUMBER FORMATTING =====
-phoneInput.addEventListener('input', e => {
-  let val = e.target.value.replace(/\D/g,'').substring(0,10);
-  let formatted = '';
-  if(val.length>0) formatted += '('+val.substring(0,3);
-  if(val.length>=4) formatted += ') '+val.substring(3,6);
-  if(val.length>=7) formatted += '-'+val.substring(6,10);
-  e.target.value = formatted;
-});
-
-// ===== RENDER CART =====
-function renderCart(){
-  tbody.innerHTML='';
-  subtotal=0;
-  cart.forEach((item,index)=>{
-    if(!item.qty) item.qty=1;
-    subtotal+=item.price*item.qty;
-    const row=document.createElement('tr');
-    row.innerHTML=`
-      <td>${item.name}</td>
-      <td>
-        <div class="quantity-controls">
-          <button onclick="changeQty(${index},-1)">-</button>
-          <span>${item.qty}</span>
-          <button onclick="changeQty(${index},1)">+</button>
+        <div class="totals-box">
+            <p><strong>Subtotal:</strong> GYD <span id="subtotal">0</span></p>
+            <p><strong>Tax (14%):</strong> GYD <span id="tax">0</span></p>
+            <p><strong>Delivery Fee:</strong> GYD <span id="delivery-fee">500</span></p>
+            <p><strong>Total:</strong> GYD <span id="total">0</span></p>
         </div>
-      </td>
-      <td>GYD ${(item.price*item.qty).toLocaleString()}</td>
-      <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
-    `;
-    tbody.appendChild(row);
-  });
-  updateTotals();
-}
 
-function changeQty(index, delta){
-  cart[index].qty+=delta;
-  if(cart[index].qty<1) cart[index].qty=1;
-  localStorage.setItem('cart', JSON.stringify(cart));
-  renderCart();
-}
+        <h3>📋 Personal Information</h3>
+        <input type="text" id="first-name" placeholder="First Name *" required>
+        <input type="text" id="last-name" placeholder="Last Name *" required>
+        <input type="tel" id="phone-number" placeholder="Telephone Number *" required>
 
-function removeItem(index){
-  cart.splice(index,1);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  renderCart();
-}
+        <h3>📍 Delivery Address</h3>
+        <button id="use-location">📍 Use My Current Location</button>
+        <div id="map"></div>
+        <textarea id="delivery-address" rows="4" placeholder="Enter your full delivery address *" required></textarea>
 
-function updateTotals(){
-  subtotalEl.innerText=subtotal.toLocaleString();
-  tax = Math.round(subtotal*0.14);
-  taxEl.innerText=tax.toLocaleString();
-  totalEl.innerText=(subtotal+tax+deliveryFee).toLocaleString();
-  deliveryEl.innerText=deliveryFee.toLocaleString();
-}
+        <h3>💳 Payment Method</h3>
+        <select id="payment-method">
+            <option value="cash">Cash on Delivery</option>
+            <option value="mmg">MMG Mobile Money</option>
+        </select>
 
-// ===== GOOGLE MAPS =====
-let map, marker;
-function initMap(){
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat:6.813, lng:-58.155},
-    zoom: 14
-  });
-  marker = new google.maps.Marker({
-    position: map.getCenter(),
-    map: map,
-    draggable:true
-  });
-  marker.addListener('dragend',()=>{ 
-    deliveryAddressEl.value=`Lat: ${marker.getPosition().lat().toFixed(5)}, Lng: ${marker.getPosition().lng().toFixed(5)}`;
-  });
-}
+        <button onclick="placeOrder()" style="width:100%;margin-top:20px">Place Order</button>
+    </section>
 
-document.getElementById('use-location').addEventListener('click',()=>{
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(pos=>{
-      const coords={lat: pos.coords.latitude, lng: pos.coords.longitude};
-      map.setCenter(coords);
-      marker.setPosition(coords);
-      deliveryAddressEl.value=`Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`;
-    });
-  } else { alert("Geolocation not supported"); }
-});
+    <section id="confirmation-screen">
+        <h2>✅ Order Confirmed!</h2>
+        <p style="font-size:1.2rem;margin:20px 0;">Your order has been placed successfully.</p>
+        <div style="background:#fff;padding:20px;border-radius:12px;margin:20px auto;max-width:500px;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+            <p><strong>Order Total:</strong> GYD <span id="confirm-total"></span></p>
+            <p><strong>Delivery Address:</strong></p>
+            <p id="confirm-address" style="color:#666;"></p>
+            <p style="color:#FF8A9D;font-weight:bold;margin-top:15px;">📦 Status: Pending</p>
+        </div>
+        <button onclick="window.location.href='index.html'">🏠 Back to Shop</button>
+    </section>
 
-window.onload = () => { renderCart(); initMap(); };
+    <footer>&copy; 2025 Tea | Beauty & Wellness | Guyana</footer>
 
-// ===== PLACE ORDER =====
-function placeOrder(){
-  if(cart.length===0){ alert('Cart is empty'); return; }
+    <script>
+        let cart = JSON.parse(localStorage.getItem('teaCart')) || [];
+        let subtotal = 0, tax = 0, deliveryFee = 500;
 
-  const firstName=document.getElementById('first-name').value.trim();
-  const lastName=document.getElementById('last-name').value.trim();
-  const phone=document.getElementById('phone-number').value.replace(/\D/g,'');
-  const address=deliveryAddressEl.value.trim();
-  const payment=document.getElementById('payment-method').value;
+        const tbody = document.querySelector('#cart-table tbody');
+        const subtotalEl = document.getElementById('subtotal');
+        const taxEl = document.getElementById('tax');
+        const deliveryEl = document.getElementById('delivery-fee');
+        const totalEl = document.getElementById('total');
+        const deliveryAddressEl = document.getElementById('delivery-address');
+        const phoneInput = document.getElementById('phone-number');
 
-  if(!firstName || !lastName || phone.length!==10 || !address){
-    alert('Please fill all fields correctly (10-digit phone required)');
-    return;
-  }
+        // ===== PHONE NUMBER FORMATTING =====
+        phoneInput.addEventListener('input', e => {
+            let val = e.target.value.replace(/\D/g, '').substring(0, 10);
+            let formatted = '';
+            if (val.length > 0) formatted += '(' + val.substring(0, 3);
+            if (val.length >= 4) formatted += ') ' + val.substring(3, 6);
+            if (val.length >= 7) formatted += '-' + val.substring(6, 10);
+            e.target.value = formatted;
+        });
 
-  const orderHistory = JSON.parse(localStorage.getItem('orderHistory'))||[];
-  const orderID='ORD'+Date.now();
-  orderHistory.push({
-    id:orderID,
-    firstName,lastName,phone,
-    cart,
-    subtotal,tax,deliveryFee,
-    total:subtotal+tax+deliveryFee,
-    address,
-    payment,
-    status:'Pending',
-    timestamp:new Date().toLocaleString()
-  });
-  localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
-  localStorage.removeItem('cart');
+        // ===== RENDER CART =====
+        function renderCart() {
+            tbody.innerHTML = '';
+            subtotal = 0;
+            
+            if (cart.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:#999;">Your cart is empty. <a href="index.html" style="color:#FF8A9D;">Continue shopping</a></td></tr>';
+                updateTotals();
+                return;
+            }
+            
+            cart.forEach((item, index) => {
+                if (!item.quantity) item.quantity = 1;
+                subtotal += item.price * item.quantity;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${item.name}</strong></td>
+                    <td>
+                        <div class="quantity-controls">
+                            <button onclick="changeQty(${index}, -1)">−</button>
+                            <span style="min-width:30px;text-align:center;font-weight:bold;">${item.quantity}</span>
+                            <button onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td>GYD ${(item.price * item.quantity).toLocaleString()}</td>
+                    <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+            updateTotals();
+        }
 
-  document.getElementById('checkout-section').style.display='none';
-  const confirmSection=document.getElementById('confirmation-screen');
-  confirmSection.querySelector('#confirm-total').innerText=(subtotal+tax+deliveryFee).toLocaleString();
-  confirmSection.querySelector('#confirm-address').innerText=address;
-  confirmSection.classList.add('show');
-}
-</script>
+        function changeQty(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity < 1) cart[index].quantity = 1;
+            localStorage.setItem('teaCart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function removeItem(index) {
+            if (confirm('Remove this item from cart?')) {
+                cart.splice(index, 1);
+                localStorage.setItem('teaCart', JSON.stringify(cart));
+                renderCart();
+            }
+        }
+
+        function updateTotals() {
+            subtotalEl.innerText = subtotal.toLocaleString();
+            tax = Math.round(subtotal * 0.14);
+            taxEl.innerText = tax.toLocaleString();
+            totalEl.innerText = (subtotal + tax + deliveryFee).toLocaleString();
+        }
+
+        // ===== SIMPLE MAP PLACEHOLDER =====
+        document.getElementById('map').innerHTML = '<div style="background:#ffe8ee;height:100%;display:flex;align-items:center;justify-content:center;color:#FF8A9D;font-weight:bold;">📍 Map would load here with Google Maps API</div>';
+
+        document.getElementById('use-location').addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    deliveryAddressEl.value = `Latitude: ${pos.coords.latitude.toFixed(5)}, Longitude: ${pos.coords.longitude.toFixed(5)}`;
+                    alert('Location detected! Please add your full street address.');
+                });
+            } else {
+                alert("Geolocation not supported by your browser");
+            }
+        });
+
+        // ===== PLACE ORDER =====
+        function placeOrder() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const firstName = document.getElementById('first-name').value.trim();
+            const lastName = document.getElementById('last-name').value.trim();
+            const phone = document.getElementById('phone-number').value.replace(/\D/g, '');
+            const address = deliveryAddressEl.value.trim();
+            const payment = document.getElementById('payment-method').value;
+
+            if (!firstName || !lastName || phone.length !== 10 || !address) {
+                alert('Please fill all required fields correctly (10-digit phone number required)');
+                return;
+            }
+
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const orderID = 'ORD' + Date.now();
+            orderHistory.push({
+                id: orderID,
+                firstName, lastName, phone,
+                cart: [...cart],
+                subtotal, tax, deliveryFee,
+                total: subtotal + tax + deliveryFee,
+                address,
+                payment,
+                status: 'Pending',
+                timestamp: new Date().toLocaleString()
+            });
+            localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+            localStorage.removeItem('teaCart');
+            cart = [];
+
+            document.getElementById('checkout-section').style.display = 'none';
+            const confirmSection = document.getElementById('confirmation-screen');
+            confirmSection.querySelector('#confirm-total').innerText = (subtotal + tax + deliveryFee).toLocaleString();
+            confirmSection.querySelector('#confirm-address').innerText = address;
+            confirmSection.classList.add('show');
+        }
+
+        // ===== INITIALIZE =====
+        renderCart();
+    </script>
 </body>
 </html>
