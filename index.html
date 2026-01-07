@@ -226,6 +226,62 @@ for(let i=0;i<30;i++){
 <script>
 // ===== DATA =====
 let products = JSON.parse(localStorage.getItem('products')) || [];
+  <script>
+/* ===== DEFAULT PRODUCTS (GitHub Pages fallback) ===== */
+let products = JSON.parse(localStorage.getItem('products')) || [
+  {
+    id: "SERV_SOFT",
+    name: "Soft / Natural Makeup",
+    desc: "Soft glam or natural everyday makeup look",
+    price: 3000,
+    type: "service",
+    img: "https://images.unsplash.com/photo-1599058917211-185b9e1a1ec5",
+    freshaLink: "https://www.fresha.com"
+  },
+  {
+    id: "SERV_GRAD",
+    name: "Graduation Makeup",
+    desc: "Flawless graduation-ready makeup",
+    price: 6000,
+    type: "service",
+    img: "https://images.unsplash.com/photo-1583084817211-3a8721c14f1a",
+    freshaLink: "https://www.fresha.com"
+  },
+  {
+    id: "SERV_BRIDAL",
+    name: "Bridal Makeup",
+    desc: "Luxury bridal makeup experience",
+    price: 12000,
+    type: "service",
+    img: "https://images.unsplash.com/photo-1590502593745-8a2e6215c2ab",
+    freshaLink: "https://www.fresha.com"
+  },
+  {
+    id: "PROD_FOUNDATION",
+    name: "Foundation",
+    desc: "Full coverage foundation",
+    price: 4200,
+    stock: 8,
+    type: "product",
+    img: "https://images.unsplash.com/photo-1612197867757-380af0e812a8",
+    trending: true
+  },
+  {
+    id: "PROD_LIPSTICK",
+    name: "Lipstick",
+    desc: "Long-lasting matte lipstick",
+    price: 5250,
+    stock: 2,
+    type: "product",
+    img: "https://images.unsplash.com/photo-1611741301707-317db1b3e24e"
+  }
+];
+
+if (!localStorage.getItem('products')) {
+  localStorage.setItem('products', JSON.stringify(products));
+}
+</script>
+
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // ===== CART TOAST =====
