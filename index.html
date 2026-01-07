@@ -5,7 +5,6 @@
 <title>Tea | Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
 <style>
 /* ===== GENERAL ===== */
 body{font-family:'Lato',sans-serif;margin:0;background:#fff;color:#333;}
@@ -13,14 +12,11 @@ header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-b
 header strong{font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;}
 header nav a{color:#fff;margin:0 12px;text-decoration:none;font-weight:600;transition:all 0.3s;}
 header nav a:hover{transform:scale(1.05);color:#ffebf0;}
-h2,h3{text-align:center;color:#FF8A9D;font-family:'Playfair Display',serif;margin:20px 0;}
 input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border:1px solid #ccc;}
-
-/* ===== BUTTONS ===== */
 .button{background:#FF8A9D;color:white;border:none;padding:10px 24px;border-radius:30px;font-weight:bold;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
 .button:hover{background:#ff6f86;transform:scale(1.05);box-shadow:0 6px 18px rgba(0,0,0,0.3);}
-.button-book{background:#FF8A9D;color:white;border:none;padding:10px 24px;border-radius:30px;font-weight:bold;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
-.button-book:hover{background:#ff6f86;transform:scale(1.05);box-shadow:0 6px 18px rgba(0,0,0,0.3);}
+h2,h3{text-align:center;color:#FF8A9D;font-family:'Playfair Display',serif;margin:20px 0;}
+.search-bar{width:90%;max-width:400px;margin:0 auto 30px;display:block;padding:10px 15px;border-radius:30px;border:1px solid #ccc;font-size:1rem;}
 
 /* ===== HERO ===== */
 .hero{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px;padding:40px;position:relative;overflow:hidden;}
@@ -31,17 +27,23 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
 .hero-text h1{font-family:'Playfair Display',serif;font-size:2.5rem;margin-bottom:20px;position:relative;}
 .hero-text p{font-size:1.2rem;margin-bottom:20px;}
 
-/* ===== FLOATING PETALS ANIMATION ===== */
+/* ===== FLOATING PETALS ===== */
 .petal {position:absolute;border-radius:50%;opacity:0.6;pointer-events:none;animation-name:floatPetal;animation-iteration-count:infinite;animation-timing-function:linear;}
 @keyframes floatPetal {0% {transform: translate(0,0) rotate(0deg) scale(1); opacity:1;}25% {transform: translate(20px,-50px) rotate(45deg) scale(1.1);}50% {transform: translate(-15px,-150px) rotate(90deg) scale(0.9); opacity:0.7;}75% {transform: translate(30px,-250px) rotate(135deg) scale(1.05);}100% {transform: translate(-20px,-400px) rotate(360deg) scale(1); opacity:0;}}
 
-/* ===== SEARCH BAR ===== */
-.search-bar{width:90%;max-width:400px;margin:0 auto 30px;display:block;padding:10px 15px;border-radius:30px;border:1px solid #ccc;font-size:1rem;}
+/* ===== BANNER ===== */
+.splash-banner-carousel{position:relative;width:100%;height:300px;max-height:400px;margin:20px auto;overflow:hidden;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+.splash-banner-carousel .slides{display:flex;height:100%;transition:transform 0.5s ease-in-out;}
+.splash-banner-carousel img{width:100%;flex-shrink:0;object-fit:cover;object-position:center center;height:100%;}
+.splash-banner-carousel .prev,.splash-banner-carousel .next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.3);color:white;border:none;padding:8px 12px;cursor:pointer;border-radius:50%;font-size:18px;z-index:2;}
+.splash-banner-carousel .prev{left:10px;}
+.splash-banner-carousel .next{right:10px;}
+.splash-banner-carousel .dots{position:absolute;bottom:10px;width:100%;text-align:center;z-index:2;}
+.splash-banner-carousel .dot{display:inline-block;width:10px;height:10px;margin:0 5px;background:#fff;border-radius:50%;opacity:0.5;cursor:pointer;}
+.splash-banner-carousel .dot.active{opacity:1;}
 
 /* ===== PRODUCT GRID ===== */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;padding:0 40px 80px;}
-
-/* ===== CARDS ===== */
 .card{background:#fff;border-radius:16px;padding:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.08);position:relative;transition:transform 0.3s ease,box-shadow 0.3s ease;}
 .card:hover{transform:translateY(-7px) scale(1.03);box-shadow:0 15px 35px rgba(255,138,176,0.35);border:2px solid #FF8A9D;}
 .card img{width:100%;border-radius:12px;margin-bottom:15px;transition:transform 0.4s ease,filter 0.4s ease;}
@@ -49,20 +51,14 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
 .price{font-weight:bold;margin:10px 0;color:#FF8A9D;}
 .stock-badge{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:#FF6F86;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:bold;}
 .badge{position:absolute;top:10px;left:10px;background:#FFCE00;color:#333;font-weight:bold;padding:4px 10px;border-radius:12px;font-size:0.8rem;margin-bottom:4px;display:inline-block;}
-
-/* ===== SERVICE CARD STYLE ===== */
 .product-type-service{border:2px dashed #FF8A9D;background:rgba(255,138,176,0.05);}
 .product-type-service:hover{background:rgba(255,138,176,0.1);transform:translateY(-7px) scale(1.03);box-shadow:0 15px 35px rgba(255,138,176,0.35);}
-
-/* ===== DESCRIPTION ===== */
 .description{font-size:0.9rem;color:#555;margin-bottom:10px;}
 .product-id{font-size:0.75rem;color:#999;margin-bottom:5px;}
 
 /* ===== FLOATING CART ===== */
 #floating-cart{position:fixed;bottom:20px;right:20px;background:#FF8A9D;color:#fff;padding:14px 20px;border-radius:50px;font-weight:bold;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.3);display:flex;align-items:center;gap:8px;z-index:1000;}
 #cart-count{background:#fff;color:#FF8A9D;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:bold;}
-
-/* ===== CART MODAL ===== */
 #cart-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all 0.3s;z-index:10000;}
 #cart-modal.show{opacity:1;pointer-events:auto;}
 #cart-content{background:#fff;width:90%;max-width:400px;border-radius:20px;padding:20px;max-height:80%;overflow-y:auto;position:relative;}
@@ -71,8 +67,6 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
 .cart-item button{background:#FF8A9D;color:#fff;border:none;border-radius:8px;padding:4px 10px;cursor:pointer;transition:all 0.2s;}
 .cart-item button:hover{background:#ff6f86;transform:scale(1.05);}
 .cart-item-qty{width:32px;text-align:center;border:1px solid #ccc;border-radius:6px;padding:2px;}
-
-/* ===== TOAST ===== */
 #toast{position:fixed;bottom:100px;right:20px;background:#FF8A9D;color:#fff;padding:12px 20px;border-radius:30px;box-shadow:0 8px 20px rgba(0,0,0,0.3);opacity:0;transition:all 0.5s;z-index:10000;}
 #toast:hover{transform:scale(1.05);box-shadow:0 12px 30px rgba(0,0,0,0.4);}
 </style>
@@ -90,9 +84,7 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-img">
-    <img src="https://images.pexels.com/photos/18459701/pexels-photo-18459701.jpeg" alt="Selfcare & Beauty">
-  </div>
+  <div class="hero-img"><img src="https://images.pexels.com/photos/18459701/pexels-photo-18459701.jpeg" alt="Selfcare & Beauty"></div>
   <div class="hero-text">
     <h1>Selfcare and Beauty in Harmony</h1>
     <p>Your journey to radiant confidence starts here</p>
@@ -100,31 +92,22 @@ input,textarea{width:100%;padding:8px;margin:4px 0 10px;border-radius:8px;border
   </div>
 </div>
 
-<!-- PETALS -->
-<script>
-const hero = document.querySelector('.hero');
-for(let i=0;i<30;i++){
-  const petal = document.createElement('div');
-  petal.classList.add('petal');
-  petal.style.left = Math.random()*100+'%';
-  petal.style.width = petal.style.height = (10 + Math.random()*15)+'px';
-  petal.style.background = `rgba(255,182,193,${0.5+Math.random()*0.5})`;
-  petal.style.animationDuration = (5 + Math.random()*5)+'s';
-  petal.style.animationDelay = (Math.random()*5)+'s';
-  hero.appendChild(petal);
-}
-</script>
-
-<!-- SEARCH BAR -->
 <input type="text" id="search-bar" class="search-bar" placeholder="Search products/services...">
 
-<!-- PRODUCT GRID -->
+<!-- BANNER -->
+<div class="splash-banner-carousel">
+  <div class="slides">
+    <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" alt="Makeup 1">
+    <img src="https://images.pexels.com/photos/373755/pexels-photo-373755.jpeg" alt="Makeup 2">
+    <img src="https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg" alt="Makeup 3">
+  </div>
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
+  <div class="dots"></div>
+</div>
+
 <div class="grid" id="products-grid"></div>
-
-<!-- FLOATING CART -->
 <div id="floating-cart">Cart <span id="cart-count">0</span></div>
-
-<!-- CART MODAL -->
 <div id="cart-modal">
   <div id="cart-content">
     <h3>Your Cart</h3>
@@ -136,71 +119,40 @@ for(let i=0;i<30;i++){
     <button class="button" onclick="closeCart()">Close</button>
   </div>
 </div>
-
-<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
-// ===== PRODUCTS DATA =====
+// ===== DATA =====
 let products = [
-  {id:1,name:"Soft / Natural",desc:"Soft everyday makeup",type:"service",freshaLink:"https://fresha.com",img:"https://images.unsplash.com/photo-1599058917211-185b9e1a1ec5",stock:0,price:3000,createdAt:"2026-01-01",trending:true},
-  {id:2,name:"Graduation",desc:"Perfect for your graduation",type:"service",freshaLink:"https://fresha.com",img:"https://images.unsplash.com/photo-1583084817211-3a8721c14f1a",stock:0,price:6000},
-  {id:3,name:"Bridal",desc:"Bridal makeup packages",type:"service",freshaLink:"https://fresha.com",img:"https://images.unsplash.com/photo-1590502593745-8a2e6215c2ab",stock:0,price:12000,createdAt:"2026-01-05"},
-  {id:4,name:"Foundation",desc:"Liquid foundation for all skin tones",type:"product",img:"https://images.unsplash.com/photo-1612197867757-380af0e812a8",stock:8,price:4200,createdAt:"2026-01-05"},
-  {id:5,name:"Lipstick",desc:"Long lasting lipstick",type:"product",img:"https://images.unsplash.com/photo-1611741301707-317db1b3e24e",stock:2,price:5250}
+  {id:'M001',name:'Red Lipstick',desc:'Bold red lipstick',price:1500,stock:10,type:'product',img:'https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg',trending:true,createdAt:new Date()},
+  {id:'M002',name:'Eyeshadow Palette',desc:'Vibrant colors',price:3500,stock:5,type:'product',img:'https://images.pexels.com/photos/373755/pexels-photo-373755.jpeg'},
+  {id:'S001',name:'Makeup Consultation',desc:'Book a session',type:'service',freshaLink:'https://fresha.com'},
 ];
-localStorage.setItem('products',JSON.stringify(products));
-
-// ===== CART LOGIC =====
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-function saveCart(){ localStorage.setItem('cart',JSON.stringify(cart)); renderCart(); updateCartCount(); }
-function updateCartCount(){ document.getElementById('cart-count').innerText = cart.reduce((sum,i)=>sum+i.quantity,0); }
-function showToast(msg,duration=3000){ const t=document.getElementById('toast'); t.innerText=msg; t.style.opacity=1; setTimeout(()=>{ t.style.opacity=0; },duration); }
-function renderCart(){ const c=document.getElementById('cart-items'); c.innerHTML=''; let total=0; cart.forEach((item,i)=>{ const p=products[item.index]; const itemTotal=p.price*item.quantity; total+=itemTotal; const div=document.createElement('div'); div.className='cart-item'; div.innerHTML=`<span>${item.name}</span><div><button onclick="changeQty(${i},-1)">-</button><input class="cart-item-qty" value="${item.quantity}" readonly><button onclick="changeQty(${i},1)">+</button><span>GYD ${itemTotal.toLocaleString()}</span><button onclick="removeFromCart(${i})">Remove</button></div>`; c.appendChild(div); }); document.getElementById('cart-total').innerText=`Total: GYD ${total.toLocaleString()}`; }
-function changeQty(i,delta){ const item=cart[i]; const p=products[item.index]; item.quantity+=delta; if(item.quantity<=0) cart.splice(i,1); saveCart(); }
-function removeFromCart(i){ cart.splice(i,1); saveCart(); }
-function goToCheckout(){ window.location.href='checkout.html'; }
-function closeCart(){ document.getElementById('cart-modal').classList.remove('show'); }
+
+function showToast(msg,duration=3000){const t=document.getElementById('toast');t.innerText=msg;t.style.opacity=1;t.style.transform='translateY(0)';setTimeout(()=>{t.style.opacity=0;t.style.transform='translateY(20px)';},duration);}
+function updateCartCount(){document.getElementById('cart-count').innerText=cart.reduce((s,i)=>s+i.quantity,0);}
+updateCartCount();
+function saveCart(){localStorage.setItem('cart',JSON.stringify(cart));renderCart();updateCartCount();}
+function renderCart(){const c=document.getElementById('cart-items');c.innerHTML='';let total=0;cart.forEach((i,idx)=>{const p=products.find(x=>x.id===i.id);const itemTotal=i.quantity*p.price;total+=itemTotal;const div=document.createElement('div');div.className='cart-item';div.innerHTML=`<span>${i.name}</span><div><button onclick="changeQty(${idx},-1)">-</button><input class="cart-item-qty" value="${i.quantity}" readonly><button onclick="changeQty(${idx},1)">+</button><span>GYD ${itemTotal.toLocaleString()}</span><button onclick="removeFromCart(${idx})">Remove</button></div>`;c.appendChild(div);});document.getElementById('cart-total').innerText=`Total: GYD ${total.toLocaleString()}`;}
+function changeQty(i,d){const item=cart[i];const p=products.find(x=>x.id===item.id);if(d>0&&item.quantity>=p.stock){showToast('Stock limit');return;}item.quantity+=d;if(item.quantity<=0)cart.splice(i,1);saveCart();}
+function removeFromCart(i){cart.splice(i,1);saveCart();}
+function goToCheckout(){window.location.href='checkout.html';}
 document.getElementById('floating-cart').addEventListener('click',()=>document.getElementById('cart-modal').classList.add('show'));
+function closeCart(){document.getElementById('cart-modal').classList.remove('show');}
+function animateToCart(img){const c=img.cloneNode(true);const r=img.getBoundingClientRect();c.style.position='fixed';c.style.left=r.left+'px';c.style.top=r.top+'px';c.style.width=r.width+'px';c.style.transition='all 0.7s ease-in-out';c.style.zIndex=10000;document.body.appendChild(c);const cartBtn=document.getElementById('floating-cart').getBoundingClientRect();setTimeout(()=>{c.style.left=cartBtn.left+'px';c.style.top=cartBtn.top+'px';c.style.width='40px';c.style.opacity=0;},50);setTimeout(()=>{c.remove();},800);}
 
 // ===== RENDER PRODUCTS =====
-const grid=document.getElementById('products-grid');
-function renderProducts(filter=''){
-  grid.innerHTML='';
-  const now=new Date();
-  products.filter(p=>((p.name+p.desc+p.id).toLowerCase().includes(filter.toLowerCase()))).forEach((p,index)=>{
-    const card=document.createElement('div');
-    card.className='card'+(p.type==='service'?' product-type-service':'');
-    let badgesHTML='';
-    if(p.type==='service') badgesHTML+='<div class="badge">Service</div>';
-    if(p.createdAt){ const diff=(now-new Date(p.createdAt))/(1000*60*60*24); if(diff<=7) badgesHTML+='<div class="badge">New Drop</div>'; }
-    if(p.trending) badgesHTML+='<div class="badge">Trending</div>';
-    card.innerHTML=`
-      ${badgesHTML}
-      <img src="${p.img}" alt="${p.name}">
-      <p class="product-id">ID: ${p.id}</p>
-      <h3>${p.name}</h3>
-      <p class="description">${p.desc}</p>
-      ${p.type==='product'?`<span class="stock-badge">${p.stock}</span><p class="price">GYD ${p.price.toLocaleString()}</p><button class="button" id="add-${index}">Add to Cart</button>`:`<button class="button button-book" onclick="window.open('${p.freshaLink}','_blank')">Book</button>`}
-    `;
-    grid.appendChild(card);
-    if(p.type==='product'){
-      document.getElementById(`add-${index}`).addEventListener('click',()=>{
-        if(p.stock<=0){ showToast(`${p.name} is out of stock!`); return; }
-        const existing=cart.find(c=>c.index===index);
-        if(existing){ existing.quantity++; } else{ cart.push({name:p.name,price:p.price,index:index,quantity:1}); }
-        p.stock--;
-        localStorage.setItem('products',JSON.stringify(products));
-        saveCart();
-        showToast(`${p.name} added to cart`);
-      });
-    }
-  });
-}
+function renderProducts(filter=''){const g=document.getElementById('products-grid');g.innerHTML='';products.filter(p=>(p.name+p.desc+p.id).toLowerCase().includes(filter.toLowerCase())).forEach((p,i)=>{const c=document.createElement('div');c.className='card'+(p.type==='service'?' product-type-service':'');let badge='';if(p.type==='service'){badge='<span class="badge">Service</span>';}c.innerHTML=`${badge}<img src="${p.img||'https://via.placeholder.com/200'}" alt="${p.name}"><h3>${p.name}</h3><p class="description">${p.desc||''}</p>${p.type==='product'?`<p class="price">GYD ${p.price.toLocaleString()}</p><button class="button" onclick="addToCart('${p.id}', this)">Add to Cart</button>`:`<button class="button" onclick="window.open('${p.freshaLink}','_blank')">Book</button>`}`;g.appendChild(c);});}
 renderProducts();
 document.getElementById('search-bar').addEventListener('input',e=>renderProducts(e.target.value));
-updateCartCount();
-</script>
+function addToCart(id,btn){const p=products.find(x=>x.id===id);animateToCart(btn.parentElement.querySelector('img'));const existing=cart.find(x=>x.id===id);if(existing){if(existing.quantity<p.stock){existing.quantity++;}else{showToast('Stock limit');return;}}else{cart.push({id,name:p.name,quantity:1});}saveCart();showToast('Added to cart');}
 
+// ===== CAROUSEL =====
+const carousel=document.querySelector('.splash-banner-carousel');const slides=carousel.querySelector('.slides');const imgs=slides.querySelectorAll('img');const prev=carousel.querySelector('.prev');const next=carousel.querySelector('.next');const dotsContainer=carousel.querySelector('.dots');let currentIndex=0;
+function showSlide(idx){currentIndex=(idx+imgs.length)%imgs.length;slides.style.transform=`translateX(-${currentIndex*100}%)`;dotsContainer.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===currentIndex));}
+imgs.forEach((_,i)=>{const d=document.createElement('span');d.className='dot';d.addEventListener('click',()=>showSlide(i));dotsContainer.appendChild(d);});
+showSlide(0);prev.addEventListener('click',()=>showSlide(currentIndex-1));next.addEventListener('click',()=>showSlide(currentIndex+1));setInterval(()=>showSlide(currentIndex+1),5000);
+</script>
 </body>
 </html>
