@@ -1,189 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Tea | Checkout</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Lato',sans-serif;background:#fff;color:#333;line-height:1.6;padding:20px;}
-header{background:#FF8A9D;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-header strong{font-family:'Playfair Display', serif;font-size:1.8rem;}
-header nav a{color:white;margin:0 12px;text-decoration:none;font-weight:600;font-size:0.95rem;}
-header nav a:hover{text-decoration:underline;}
-h2{color:#FF8A9D;text-align:center;font-family:'Playfair Display', serif;margin-bottom:40px;font-size:2rem;}
-table{width:100%;border-collapse:collapse;margin-bottom:20px;}
-table th, table td{padding:12px;border-bottom:1px solid #ddd;text-align:left;}
-input, select, textarea{width:100%;padding:10px;margin:6px 0 12px;border-radius:8px;border:1px solid #ccc;font-family:'Lato',sans-serif;font-size:0.95rem;}
-textarea{resize:vertical;}
-button{background:#FF8A9D;color:white;border:none;padding:12px 28px;border-radius:30px;font-weight:bold;font-size:0.95rem;cursor:pointer;box-shadow:0 6px 18px rgba(255,138,157,0.35);transition:all 0.3s ease;}
-button:hover{background:#ff6f86;transform:translateY(-2px);}
-footer{text-align:center;padding:25px 0;background:#fff0f3;color:#333;font-size:0.9rem;margin-top:50px;}
-#map{width:100%;height:300px;margin-bottom:20px;border-radius:12px;}
-.payment-section{margin-top:20px;}
-.quantity-controls{display:flex;align-items:center;gap:6px;}
-.quantity-controls button{padding:4px 10px;font-size:0.9rem;border-radius:6px;}
-.remove-btn{background:#f44336;}
-.remove-btn:hover{background:#d32f2f;}
-</style>
+    <meta charset="UTF-8">
+    <title>Tea | Book Appointment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== GENERAL ===== */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            color: #333;
+        }
+        
+        /* ===== HEADER ===== */
+        header {
+            background: #FF8A9D;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        header strong {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+        header nav a {
+            color: #fff;
+            margin: 0 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        header nav a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: #fff;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        header nav a:hover {
+            transform: translateY(-2px);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+        header nav a:hover::before {
+            width: 80%;
+        }
+        header nav a:active {
+            transform: translateY(0) scale(0.95);
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        header nav a {
+            animation: fadeInDown 0.6s ease-out forwards;
+        }
+        header nav a:nth-child(1) {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+        header nav a:nth-child(2) {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+        header nav a:nth-child(3) {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+        header nav a:nth-child(4) {
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+        
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px;
+            overflow: visible;
+            background: linear-gradient(135deg, #fff 0%, #ffe8ee 100%);
+            min-height: 400px;
+        }
+        .hero-img {
+            flex: 1 1 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            max-width: 600px;
+        }
+        .hero-img img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.5s;
+        }
+        .hero-img img:hover {
+            transform: scale(1.05);
+        }
+        .hero-text {
+            flex: 1 1 300px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            background: rgba(255,138,176,0.15);
+            border-radius: 20px;
+        }
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #FF8A9D;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 40px 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #FF8A9D;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        
+        /* ===== SERVICE CARDS ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0 40px;
+            margin-bottom: 60px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .service-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px dashed #FF8A9D;
+            background: rgba(255,138,176,0.05);
+        }
+        .service-card:hover {
+            transform: translateY(-7px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(255,138,176,0.35);
+            background: rgba(255,138,176,0.1);
+        }
+        .service-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: transform 0.4s ease;
+        }
+        .service-card img:hover {
+            transform: scale(1.05);
+        }
+        .service-card h3 {
+            color: #333;
+            margin: 15px 0 10px;
+            font-size: 1.3rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .service-card .description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+        .service-card .price {
+            font-weight: bold;
+            margin: 15px 0;
+            color: #FF8A9D;
+            font-size: 1.2rem;
+        }
+        .badge {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: #FFCE00;
+            color: #333;
+            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+        
+        /* ===== BUTTONS ===== */
+        .button {
+            background: #FF8A9D;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .button:hover {
+            background: #ff6f86;
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+        }
+        
+        /* ===== POLICIES ===== */
+        .policies {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 16px;
+            background: rgba(255,138,176,0.05);
+            border: 2px dashed #FF8A9D;
+        }
+        .policies h3 {
+            color: #FF8A9D;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+        }
+        .policies p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .policies strong {
+            color: #FF8A9D;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+        }
+        
+        /* ===== FLOATING PETALS ===== */
+        .petal {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: floatPetal 10s infinite linear;
+            z-index: 1;
+            will-change: transform, opacity;
+        }
+        @keyframes floatPetal {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+                opacity: 0.8;
+            }
+            25% {
+                transform: translateY(-150px) translateX(20px) rotate(90deg) scale(1.1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-300px) translateX(-15px) rotate(180deg) scale(0.9);
+                opacity: 0.6;
+            }
+            75% {
+                transform: translateY(-450px) translateX(30px) rotate(270deg) scale(1.05);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-600px) translateX(-20px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            .services-grid {
+                padding: 0 20px;
+                grid-template-columns: 1fr;
+            }
+            .policies {
+                padding: 25px;
+                margin: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <strong>Tea</strong>
+        <nav>
+            <a href="index.html">Shop</a>
+            <a href="book.html">Book</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+    </header>
 
-<header>
-  <strong>Tea</strong>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="book.html">Book</a>
-    <a href="shop.html">Shop</a>
-  </nav>
-</header>
-
-<section>
-<h2>Checkout</h2>
-
-<table id="cart-table">
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Qty</th>
-      <th>Price (GYD)</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-
-<p><strong>Subtotal:</strong> GYD <span id="subtotal">0</span></p>
-<p><strong>Tax (14%):</strong> GYD <span id="tax">0</span></p>
-<p><strong>Delivery Fee:</strong> GYD <span id="delivery-fee">0</span></p>
-<p><strong>Total:</strong> GYD <span id="total">0</span></p>
-
-<h3>Delivery Address</h3>
-<div id="map"></div>
-<textarea id="delivery-address" placeholder="Enter your address here" rows="4"></textarea>
-
-<div class="payment-section">
-<h3>Select Payment Method</h3>
-<select id="payment-method">
-  <option value="cash">Cash</option>
-  <option value="mmg">MMG</option>
-</select>
-</div>
-
-<button onclick="placeOrder()">Place Order</button>
-</section>
-
-<script>
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let subtotal = 0;
-let tax = 0;
-let deliveryFee = 0;
-const georgetownBounds = {latMin:6.785,latMax:6.855,lngMin:-58.195,lngMax:-58.125};
-const tableBody = document.querySelector('#cart-table tbody');
-const subtotalEl = document.getElementById('subtotal');
-const taxEl = document.getElementById('tax');
-const deliveryEl = document.getElementById('delivery-fee');
-const totalEl = document.getElementById('total');
-
-// Populate cart table
-function renderCart(){
-  tableBody.innerHTML='';
-  subtotal=0;
-  cart.forEach((item,index)=>{
-    const row=document.createElement('tr');
-    row.innerHTML=`
-      <td>${item.name}</td>
-      <td>
-        <div class="quantity-controls">
-          <button onclick="changeQty(${index},-1)">-</button>
-          <span id="qty-${index}">${item.qty || 1}</span>
-          <button onclick="changeQty(${index},1)">+</button>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-img">
+            <img src="https://images.pexels.com/photos/3373729/pexels-photo-3373729.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Beauty Services">
         </div>
-      </td>
-      <td id="price-${index}">${(item.price*(item.qty||1)).toLocaleString()}</td>
-      <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
-    `;
-    tableBody.appendChild(row);
-    subtotal += item.price*(item.qty||1);
-  });
-  subtotalEl.innerText = subtotal.toLocaleString();
-  tax = subtotal*0.14;
-  taxEl.innerText = tax.toLocaleString();
-  calculateTotal();
-}
-renderCart();
+        <div class="hero-text">
+            <h1>Book Your Beauty Experience</h1>
+            <p>Professional makeup services tailored just for you</p>
+        </div>
+    </div>
 
-function changeQty(index,delta){
-  let item = cart[index];
-  if(!item.qty) item.qty=1;
-  let newQty = item.qty + delta;
-  if(newQty<1) newQty=1;
-  // Check against stock
-  let products = JSON.parse(localStorage.getItem('products')) || [];
-  let prod = products[item.index];
-  if(newQty>prod.stock+item.qty){ newQty = prod.stock+item.qty; }
-  item.qty=newQty;
-  document.getElementById(`qty-${index}`).innerText=item.qty;
-  document.getElementById(`price-${index}`).innerText=(item.price*item.qty).toLocaleString();
-  renderCart();
-  localStorage.setItem('cart',JSON.stringify(cart));
-}
+    <!-- SERVICES SECTION -->
+    <section>
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <!-- Soft/Natural Makeup -->
+            <div class="service-card">
+                <span class="badge">Service</span>
+                <img src="https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Soft Natural Makeup">
+                <h3>Soft / Natural Makeup</h3>
+                <p class="description">Perfect for everyday elegance and professional looks</p>
+                <p class="price">GYD 3,000</p>
+                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+            </div>
 
-function removeItem(index){
-  cart.splice(index,1);
-  localStorage.setItem('cart',JSON.stringify(cart));
-  renderCart();
-}
+            <!-- Graduation Makeup -->
+            <div class="service-card">
+                <span class="badge">Service</span>
+                <img src="https://images.pexels.com/photos/3373729/pexels-photo-3373729.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Graduation Makeup">
+                <h3>Graduation Makeup</h3>
+                <p class="description">Look stunning on your big milestone day</p>
+                <p class="price">GYD 6,000</p>
+                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+            </div>
 
-function calculateTotal(){
-  totalEl.innerText=(subtotal+tax+deliveryFee).toLocaleString();
-}
+            <!-- Bridal Makeup -->
+            <div class="service-card">
+                <span class="badge">Service</span>
+                <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bridal Makeup">
+                <h3>Bridal Makeup</h3>
+                <p class="description">Luxury bridal experience for your special day</p>
+                <p class="price">From GYD 12,000+</p>
+                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+            </div>
 
-// GOOGLE MAPS
-let map,marker;
-function initMap(){
-  map=new google.maps.Map(document.getElementById('map'),{
-    center:{lat:6.804,lng:-58.155},
-    zoom:12
-  });
-  marker=new google.maps.Marker({
-    position:{lat:6.804,lng:-58.155},
-    map:map,
-    draggable:true
-  });
-  google.maps.event.addListener(marker,'dragend',updateDeliveryFee);
-}
-function updateDeliveryFee(){
-  const pos=marker.getPosition();
-  if(pos.lat()>=georgetownBounds.latMin && pos.lat()<=georgetownBounds.latMax &&
-     pos.lng()>=georgetownBounds.lngMin && pos.lng()<=georgetownBounds.lngMax){
-    deliveryFee=500;
-  }else{
-    deliveryFee=1000;
-  }
-  deliveryEl.innerText=deliveryFee.toLocaleString();
-  calculateTotal();
-}
+            <!-- Makeup Consultation -->
+            <div class="service-card">
+                <span class="badge">Service</span>
+                <img src="https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Makeup Consultation">
+                <h3>Makeup Consultation</h3>
+                <p class="description">Personalized beauty advice and product recommendations</p>
+                <p class="price">Free</p>
+                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+            </div>
+        </div>
+    </section>
 
-// Save delivery info and payment
-function placeOrder(){
-  const address=document.getElementById('delivery-address').value;
-  const payment=document.getElementById('payment-method').value;
-  if(!address){alert('Please enter delivery address'); return;}
-  const order={cart,subtotal,tax,deliveryFee,total:subtotal+tax+deliveryFee,address,payment};
-  localStorage.setItem('order',JSON.stringify(order));
-  localStorage.setItem('lastAddress',address); // save for admin area
-  alert('Order placed! Proceeding to payment...');
-  if(payment==='mmg'){
-    window.location.href='mmg_payment.html';
-  }else{
-    alert('You selected Cash. Please prepare GYD on delivery.');
-  }
-}
-</script>
-<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_TEMP_KEY&callback=initMap"></script>
-<footer>&copy; 2025 Tea | Guyana</footer>
+    <!-- POLICIES -->
+    <div class="policies">
+        <h3>📋 Booking Policies</h3>
+        <p><strong>Cancellation Policy:</strong> Please provide at least 24 hours notice for cancellations. Late cancellations may incur a 50% fee. No-shows will be charged the full amount.</p>
+        
+        <h3>💳 Payment Terms</h3>
+        <p><strong>Deposit:</strong> A 50% deposit is required to secure your booking through Fresha. The remaining balance is due on the day of service.</p>
+        <p><strong>Payment Methods:</strong> We accept cash, MMG mobile money, and bank transfers. Payment details will be confirmed when you book through Fresha.</p>
+        
+        <h3>⏰ Arrival & Timing</h3>
+        <p><strong>Punctuality:</strong> Please arrive 10 minutes early for your appointment. Late arrivals may result in shortened service time or rescheduling.</p>
+        <p><strong>Scheduling:</strong> All appointments are scheduled through our Fresha booking system. Please select your preferred date and time when booking.</p>
+        
+        <h3>✨ What to Bring</h3>
+        <p>Please arrive with a clean face (no makeup). If you have specific products you'd like us to use or any allergies, please mention them in the booking notes on Fresha.</p>
+        
+        <h3>🎨 Service Details</h3>
+        <p><strong>Soft/Natural Makeup:</strong> Perfect for daily wear, work events, or subtle enhancement (Duration: 1 hour)</p>
+        <p><strong>Graduation Makeup:</strong> Camera-ready looks that last all day for your special ceremony (Duration: 1.5 hours)</p>
+        <p><strong>Bridal Makeup:</strong> Complete bridal experience including trial, touch-ups, and premium products (Duration: 2-3 hours)</p>
+        <p><strong>Consultation:</strong> 30-minute personalized session to discuss your beauty goals and product recommendations</p>
+    </div>
+
+    <footer>&copy; 2025 Tea | Beauty & Wellness | Guyana</footer>
+
+    <script>
+        // ===== FLOATING PETALS =====
+        function createPetals() {
+            const hero = document.querySelector('.hero');
+            if (!hero) return;
+            
+            const colors = ['#FFB6C1', '#FF8A9D', '#FFC0CB', '#FFE4E1', '#FF69B4', '#FFD1DC'];
+            
+            for (let i = 0; i < 25; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                
+                const size = Math.random() * 25 + 25;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.bottom = '0px';
+                petal.style.background = colors[Math.floor(Math.random() * colors.length)];
+                petal.style.animationDuration = (Math.random() * 7 + 8) + 's';
+                petal.style.animationDelay = (Math.random() * 8) + 's';
+                petal.style.boxShadow = '0 4px 12px rgba(255, 138, 157, 0.4)';
+                
+                hero.appendChild(petal);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createPetals);
+        } else {
+            createPetals();
+        }
+
+        // ===== LOAD SERVICES FROM ADMIN =====
+        // This will pull service data from localStorage if available
+        window.addEventListener('load', () => {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const services = products.filter(p => p.type === 'service');
+            
+            // If admin has added services, we could dynamically update the cards
+            // For now, the default services are hardcoded above
+            console.log('Available services from admin:', services);
+        });
+    </script>
 </body>
 </html>
