@@ -151,100 +151,18 @@
             color: #555;
         }
         
-        /* ===== SECTIONS ===== */
-        section {
-            padding: 40px 20px;
-        }
-        h2 {
-            text-align: center;
-            color: #FF8A9D;
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 40px;
-            font-size: 2rem;
-        }
-        
-        /* ===== SERVICE CARDS ===== */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            padding: 0 40px;
-            margin-bottom: 60px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .service-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 2px dashed #FF8A9D;
-            background: rgba(255,138,176,0.05);
-        }
-        .service-card:hover {
-            transform: translateY(-7px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(255,138,176,0.35);
-            background: rgba(255,138,176,0.1);
-        }
-        .service-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            transition: transform 0.4s ease;
-        }
-        .service-card img:hover {
-            transform: scale(1.05);
-        }
-        .service-card h3 {
-            color: #333;
-            margin: 15px 0 10px;
-            font-size: 1.3rem;
-            font-family: 'Playfair Display', serif;
-        }
-        .service-card .description {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 15px;
-            min-height: 40px;
-        }
-        .service-card .price {
-            font-weight: bold;
-            margin: 15px 0;
-            color: #FF8A9D;
-            font-size: 1.2rem;
-        }
-        .badge {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            background: #FFCE00;
-            color: #333;
-            font-weight: bold;
-            padding: 6px 14px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-        }
-        
         /* ===== BUTTONS ===== */
         .button {
             background: #FF8A9D;
             color: white;
             border: none;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            font-size: 1rem;
-            text-decoration: none;
-            display: inline-block;
+            font-size: 0.95rem;
         }
         .button:hover {
             background: #ff6f86;
@@ -252,11 +170,53 @@
             box-shadow: 0 6px 18px rgba(0,0,0,0.3);
         }
         
-        /* ===== POLICIES ===== */
-        .policies {
-            max-width: 900px;
-            margin: 40px auto;
+        /* ===== BOOKING FORM ===== */
+        .booking-container {
+            max-width: 600px;
+            margin: 60px auto;
             padding: 40px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #FF8A9D;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #FFB6C1;
+            border-radius: 12px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #FF8A9D;
+            box-shadow: 0 0 15px rgba(255,138,157,0.3);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .policies {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
             border-radius: 16px;
             background: rgba(255,138,176,0.05);
             border: 2px dashed #FF8A9D;
@@ -265,16 +225,32 @@
             color: #FF8A9D;
             margin-bottom: 15px;
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
         }
         .policies p {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #555;
-            margin-bottom: 20px;
-            line-height: 1.7;
+            margin-bottom: 15px;
+            line-height: 1.6;
         }
-        .policies strong {
-            color: #FF8A9D;
+        
+        /* ===== TOAST ===== */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: #FF8A9D;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.5s;
+            z-index: 10000;
+            transform: translateY(20px);
+        }
+        #toast.show {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         /* ===== FOOTER ===== */
@@ -324,13 +300,9 @@
             .hero-text h1 {
                 font-size: 2rem;
             }
-            .services-grid {
-                padding: 0 20px;
-                grid-template-columns: 1fr;
-            }
-            .policies {
-                padding: 25px;
-                margin: 20px;
+            .booking-container {
+                padding: 20px;
+                margin: 30px 20px;
             }
         }
     </style>
@@ -357,78 +329,138 @@
         </div>
     </div>
 
-    <!-- SERVICES SECTION -->
-    <section>
-        <h2>Our Services</h2>
-        <div class="services-grid">
-            <!-- Soft/Natural Makeup -->
-            <div class="service-card">
-                <span class="badge">Service</span>
-                <img src="https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Soft Natural Makeup">
-                <h3>Soft / Natural Makeup</h3>
-                <p class="description">Perfect for everyday elegance and professional looks</p>
-                <p class="price">GYD 3,000</p>
-                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+    <!-- BOOKING FORM -->
+    <div class="booking-container">
+        <h2>Book an Appointment</h2>
+        <form id="booking-form">
+            <div class="form-group">
+                <label for="service-type">Service Type *</label>
+                <select id="service-type" required>
+                    <option value="">Select a service</option>
+                    <option value="soft">Soft / Natural Makeup - GYD 3,000</option>
+                    <option value="graduation">Graduation Makeup - GYD 6,000</option>
+                    <option value="bridal">Bridal Makeup - From GYD 12,000+</option>
+                    <option value="consultation">Makeup Consultation - Free</option>
+                </select>
             </div>
 
-            <!-- Graduation Makeup -->
-            <div class="service-card">
-                <span class="badge">Service</span>
-                <img src="https://images.pexels.com/photos/3373729/pexels-photo-3373729.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Graduation Makeup">
-                <h3>Graduation Makeup</h3>
-                <p class="description">Look stunning on your big milestone day</p>
-                <p class="price">GYD 6,000</p>
-                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+            <div class="form-group">
+                <label for="first-name">First Name *</label>
+                <input type="text" id="first-name" required>
             </div>
 
-            <!-- Bridal Makeup -->
-            <div class="service-card">
-                <span class="badge">Service</span>
-                <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bridal Makeup">
-                <h3>Bridal Makeup</h3>
-                <p class="description">Luxury bridal experience for your special day</p>
-                <p class="price">From GYD 12,000+</p>
-                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+            <div class="form-group">
+                <label for="last-name">Last Name *</label>
+                <input type="text" id="last-name" required>
             </div>
 
-            <!-- Makeup Consultation -->
-            <div class="service-card">
-                <span class="badge">Service</span>
-                <img src="https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Makeup Consultation">
-                <h3>Makeup Consultation</h3>
-                <p class="description">Personalized beauty advice and product recommendations</p>
-                <p class="price">Free</p>
-                <a href="https://fresha.com" target="_blank" class="button">Book on Fresha</a>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" required>
             </div>
-        </div>
-    </section>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" required placeholder="(592) 123-4567">
+            </div>
+
+            <div class="form-group">
+                <label for="date">Preferred Date *</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Preferred Time *</label>
+                <input type="time" id="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Additional Notes</label>
+                <textarea id="notes" placeholder="Any special requests or requirements..."></textarea>
+            </div>
+
+            <button type="submit" class="button" style="width:100%">Submit Booking</button>
+        </form>
+    </div>
 
     <!-- POLICIES -->
     <div class="policies">
         <h3>📋 Booking Policies</h3>
-        <p><strong>Cancellation Policy:</strong> Please provide at least 24 hours notice for cancellations. Late cancellations may incur a 50% fee. No-shows will be charged the full amount.</p>
+        <p><strong>Cancellation Policy:</strong> Please provide at least 24 hours notice for cancellations. Late cancellations may incur a fee.</p>
         
         <h3>💳 Payment Terms</h3>
-        <p><strong>Deposit:</strong> A 50% deposit is required to secure your booking through Fresha. The remaining balance is due on the day of service.</p>
-        <p><strong>Payment Methods:</strong> We accept cash, MMG mobile money, and bank transfers. Payment details will be confirmed when you book through Fresha.</p>
+        <p><strong>Deposit:</strong> A 50% deposit is required to secure your booking. The remaining balance is due on the day of service.</p>
+        <p><strong>Payment Methods:</strong> We accept cash, MMG mobile money, and bank transfers.</p>
         
         <h3>⏰ Arrival & Timing</h3>
-        <p><strong>Punctuality:</strong> Please arrive 10 minutes early for your appointment. Late arrivals may result in shortened service time or rescheduling.</p>
-        <p><strong>Scheduling:</strong> All appointments are scheduled through our Fresha booking system. Please select your preferred date and time when booking.</p>
+        <p><strong>Punctuality:</strong> Please arrive 10 minutes early for your appointment. Late arrivals may result in shortened service time.</p>
         
         <h3>✨ What to Bring</h3>
-        <p>Please arrive with a clean face (no makeup). If you have specific products you'd like us to use or any allergies, please mention them in the booking notes on Fresha.</p>
-        
-        <h3>🎨 Service Details</h3>
-        <p><strong>Soft/Natural Makeup:</strong> Perfect for daily wear, work events, or subtle enhancement (Duration: 1 hour)</p>
-        <p><strong>Graduation Makeup:</strong> Camera-ready looks that last all day for your special ceremony (Duration: 1.5 hours)</p>
-        <p><strong>Bridal Makeup:</strong> Complete bridal experience including trial, touch-ups, and premium products (Duration: 2-3 hours)</p>
-        <p><strong>Consultation:</strong> 30-minute personalized session to discuss your beauty goals and product recommendations</p>
+        <p>Please arrive with a clean face (no makeup). If you have specific products you'd like us to use, feel free to bring them along!</p>
     </div>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
 
     <footer>&copy; 2025 Tea | Beauty & Wellness | Guyana</footer>
 
     <script>
+        // ===== PHONE NUMBER FORMATTING =====
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', e => {
+            let val = e.target.value.replace(/\D/g, '').substring(0, 10);
+            let formatted = '';
+            if (val.length > 0) formatted += '(' + val.substring(0, 3);
+            if (val.length >= 4) formatted += ') ' + val.substring(3, 6);
+            if (val.length >= 7) formatted += '-' + val.substring(6, 10);
+            e.target.value = formatted;
+        });
+
+        // ===== MIN DATE (TODAY) =====
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+
+        // ===== TOAST =====
+        function showToast(msg, duration = 3000) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // ===== FORM SUBMISSION =====
+        document.getElementById('booking-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const booking = {
+                service: document.getElementById('service-type').value,
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                notes: document.getElementById('notes').value,
+                timestamp: new Date().toLocaleString(),
+                status: 'Pending'
+            };
+
+            // Save to localStorage
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings.push(booking);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+
+            showToast('✅ Booking submitted successfully! We\'ll contact you soon.');
+            
+            // Reset form
+            setTimeout(() => {
+                document.getElementById('booking-form').reset();
+            }, 1500);
+        });
+
         // ===== FLOATING PETALS =====
         function createPetals() {
             const hero = document.querySelector('.hero');
@@ -459,17 +491,6 @@
         } else {
             createPetals();
         }
-
-        // ===== LOAD SERVICES FROM ADMIN =====
-        // This will pull service data from localStorage if available
-        window.addEventListener('load', () => {
-            const products = JSON.parse(localStorage.getItem('products')) || [];
-            const services = products.filter(p => p.type === 'service');
-            
-            // If admin has added services, we could dynamically update the cards
-            // For now, the default services are hardcoded above
-            console.log('Available services from admin:', services);
-        });
     </script>
 </body>
 </html>
